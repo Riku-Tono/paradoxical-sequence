@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A within-layer first-pass signature in the remaining_K 64–95 layer</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#faf8f3; --ink:#1c1b18; --muted:#5d5a52; --line:#e0dbcf;
+    --rule:#cfc8b8; --accent:#6b5a3e; --accentbg:#f1ece0;
+    --warn:#8a5a1e; --warnbg:#f6ead4; --chipb:#5b6b4d; --chipc:#8a6a4a;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: Georgia,"Times New Roman","Hiragino Mincho ProN",serif;
+    line-height:1.8; font-size:17px;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 22px 96px; }
+  nav.site-nav, nav.footer-nav{
+    display:flex; flex-wrap:wrap; gap:2px 16px; font-size:13.5px;
+    font-family: -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:18px 0; border-bottom:1px solid var(--line); margin-bottom:10px;
+  }
+  nav.footer-nav{ border-bottom:none; border-top:1px solid var(--line); margin-top:48px; }
+  nav a{ color:var(--muted); text-decoration:none; }
+  nav a:hover{ color:var(--accent); text-decoration:underline; }
+  nav a[aria-current="page"]{ color:var(--ink); font-weight:600; }
+  .chapter-mark{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:12px; letter-spacing:.04em; color:var(--muted);
+    text-transform:uppercase; margin:26px 0 4px; padding-bottom:8px;
+    border-bottom:2px solid var(--rule);
+  }
+  .chapter-mark .num{ font-weight:700; color:var(--accent); }
+  h1{ font-size:30px; line-height:1.3; margin:.5em 0 .2em; letter-spacing:.01em; }
+  .subtitle{ color:var(--muted); font-size:16px; margin:.2em 0 1.4em;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  h2{ font-size:21px; margin:2em 0 .5em; padding-top:.4em;
+      border-top:1px solid var(--line); }
+  h3{ font-size:17px; margin:1.5em 0 .3em; color:var(--accent);
+      font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  p{ margin:.7em 0; }
+  p.lead{ font-size:18.5px; color:#2c2a25; }
+  em{ font-style:italic; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.86em;
+        background:var(--accentbg); padding:.08em .35em; border-radius:3px; }
+  pre{ background:#fff; border:1px solid var(--line); border-radius:6px;
+       padding:12px 16px; overflow-x:auto; font-size:13.5px; line-height:1.55; }
+  pre code{ background:none; padding:0; }
+  .term{ font-weight:600; color:var(--accent); }
+  .small{ font-size:13.5px; color:var(--muted);
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  ul,ol{ padding-left:1.3em; }
+  li{ margin:.35em 0; }
+  table{ width:100%; border-collapse:collapse; margin:1.2em 0; font-size:14.5px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  caption{ caption-side:top; text-align:left; color:var(--muted);
+    font-size:13px; margin-bottom:.5em; }
+  th,td{ padding:7px 10px; border-bottom:1px solid var(--line); text-align:left; }
+  thead th{ border-bottom:2px solid var(--rule); font-weight:600; }
+  th.num,td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:2px solid var(--rule); }
+  .stance{ border-left:4px solid var(--accent); background:var(--accentbg);
+    padding:14px 18px; margin:1.4em 0; border-radius:0 6px 6px 0; font-size:15.5px; }
+  .stance.warn{ border-left-color:var(--warn); background:var(--warnbg); }
+  .stance .tag{ display:block; font-size:11.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--accent); font-weight:700;
+    margin-bottom:.4em; font-family:-apple-system,sans-serif; }
+  .stance.warn .tag{ color:var(--warn); }
+  .flow{ display:flex; gap:10px; flex-wrap:wrap; margin:1.2em 0; }
+  .flow > div{ flex:1; min-width:150px; border:1px solid var(--line);
+    border-radius:6px; padding:10px 14px; background:#fff; font-size:14px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .flow .lab{ font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent); font-weight:700; display:block; margin-bottom:3px; }
+  .chip{ display:inline-block; font-size:11.5px; font-weight:700; color:#fff;
+    border-radius:4px; padding:1px 7px; vertical-align:middle;
+    font-family:-apple-system,sans-serif; }
+  .chip.b{ background:var(--chipb); } .chip.c{ background:var(--chipc); }
+  .neg{ color:#a23c2e; } .pos{ color:#2e6b4f; }
+  .chap-nav{ display:flex; align-items:center; margin-top:42px; font-size:14px;
+    font-family:-apple-system,sans-serif; }
+  .chap-nav .spacer{ flex:1; }
+  .chap-nav a{ color:var(--accent); text-decoration:none; }
+  .toc{ font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:14.5px; background:#fff; border:1px solid var(--line);
+    border-radius:8px; padding:16px 22px; margin:1.5em 0; }
+  .toc ol{ margin:.3em 0; }
+  .toc a{ color:var(--ink); text-decoration:none; }
+  .toc a:hover{ color:var(--accent); text-decoration:underline; }
+  hr.sec{ border:none; border-top:2px solid var(--rule); margin:3.2em 0 0; }
+  .ladder{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:13px;
+    background:#fff; border:1px solid var(--line); border-radius:6px;
+    padding:14px 18px; margin:1.2em 0; line-height:1.7; white-space:pre; overflow-x:auto; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="collatz_delta_localization_en.html">Δ-localization</a>
+    <a href="band_signatures.html">Band signatures</a>
+    <a href="#abstract" aria-current="page">First-pass signature</a>
+    <a href="05_negative_results.html">Prior: Negative Results</a>
+    <a href="https://arxiv.org/abs/2502.00948">Rozier–Terracol</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+
+  <div class="chapter-mark"><span><span class="num">DELTA III</span> &nbsp;measurement paper</span><span>First-pass signature</span></div>
+
+  <h1 id="abstract">A within-layer first-pass signature in the remaining_K 64–95 layer</h1>
+  <p class="subtitle">An observational follow-up. Descriptive analysis only — no mechanism, causality, or proof is claimed.</p>
+
+  <p class="lead">
+    A companion study (Paper 2) localized a difference signal between observed accelerated
+    Collatz trajectories and a structureless null model on a <code>remaining_K</code> chain, and
+    identified its cleanest sequence-level carrier as the <span class="term">A signature</span> at
+    <code>64–95 → 32–63</code>. This paper does not introduce a new claim. It re-reads the same
+    sampled universe to ask <em>where</em> in a trajectory the A signature appears, and <em>what</em>
+    distinguishes the trajectories that realize it from the near-neighbours that do not.
+  </p>
+
+  <p class="small">
+    Lineage. A prior study (<a href="05_negative_results.html">finite-block diagnostics</a>) established
+    a negative result: the actual−iid discrepancy on Collatz escape words is detectable but is not
+    <em>generated</em> by finite-block constructions, leaving a residual indexed by bridge shape and
+    parity in the deep tail. Paper 1 (<a href="collatz_delta_localization_en.html">Δ-localization</a>)
+    showed the <code>remaining_K</code> boundary coordinate binds that discrepancy most sharply; Paper 2
+    (<a href="band_signatures.html">band signatures</a>) found its cleanest sequence-level carrier, the
+    A signature. This paper continues that line into the trajectory's time axis. The explicit link back
+    to the diagnostics residual is §9.
+  </p>
+
+  <p>
+    We report four descriptive findings. (1) A is not an <em>entry</em> signature: among trajectories
+    that ever satisfy it, A coincides exactly with the first <code>64–95 → 32–63</code> pass in every
+    observed case. (2) The dominant non-A pass that shares A's local <code>k=1 / 1,1,1</code> face
+    differs only by entry route (an inflow analogue); after the pass, the two follow an almost
+    identical coarse downstream path. (3) Among same-route (<code>START_IN_LAYER</code>) passes, what
+    separates A from its non-A siblings is not the <em>formation</em> of the all-1 context but its
+    <em>maintenance</em> up to the pass. (4) A small set of trajectories form the all-1 context and
+    then lose it before passing; in this sample the loss is a localized interruption of the
+    <code>k=1</code> run. We give an external-benchmark overlay against Rozier–Terracol Appendix C in
+    an appendix. Throughout we use only observational language.
+  </p>
+
+  <div class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#s1">Scope and stance</a></li>
+      <li><a href="#s2">Dataset and definitions</a></li>
+      <li><a href="#s3">The boundary into 64–95</a></li>
+      <li><a href="#s4">First-pass structure inside 64–95</a></li>
+      <li><a href="#s5">A_start and A_inflow</a></li>
+      <li><a href="#s6">Other_start</a></li>
+      <li><a href="#s7">Formation and maintenance of the all-1 context</a></li>
+      <li><a href="#s8">Lost111 micro-cases</a></li>
+      <li><a href="#s9">Connection to the finite-block diagnostics study</a></li>
+      <li><a href="#s10">Interpretation boundaries</a></li>
+      <li><a href="#s11">Conclusion</a></li>
+      <li><a href="#appA">Appendix A — Rozier–Terracol overlay</a></li>
+      <li><a href="#appB">Appendix B — Output file index</a></li>
+    </ol>
+  </div>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">01</span> &nbsp;Scope and stance</span><span>First-pass signature</span></div>
+  <h2 id="s1">1. Scope and stance</h2>
+  <p>
+    The object of study is the same difference signal used in Paper 2, written informally
+    <code>actual − iid</code>: the contrast between observed accelerated Collatz trajectories
+    ("actual") and a surrogate ("iid word") in which the per-step valuation word is resampled
+    independently from a fixed marginal. Paper 2 established that this signal is sharply localized on
+    the <code>remaining_K</code> coordinate and that its cleanest carrier is the A signature. The
+    present paper takes the A signature as <em>given</em> and asks only descriptive questions about
+    its placement and its near-neighbourhood.
+  </p>
+  <div class="stance">
+    <span class="tag">Stance</span>
+    We restrict ourselves to observational language: <em>we observe, we find, is concentrated in,
+    is carried by, coincides with, is consistent with</em>. We do not write <em>because</em>,
+    <em>mechanism</em>, or <em>proof</em>. Low-support cells are flagged and treated as candidates,
+    not claims.
+  </div>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">02</span> &nbsp;Dataset and definitions</span><span>First-pass signature</span></div>
+  <h2 id="s2">2. Dataset and definitions</h2>
+  <p>
+    The analysis universe is the same sampled ensemble of long accelerated Collatz words as the
+    companion studies, in the scanner mode <code>original_n_strict</code>. All counts below are
+    reproduced from that mode unless stated otherwise. The ensemble is sampled, not exhaustively
+    enumerated (see §9).
+  </p>
+
+  <h3>2.1 Coordinate</h3>
+  <p>
+    For an odd integer trajectory under the accelerated Collatz map, let
+    <code>x<sub>t+1</sub> = (3x<sub>t</sub>+1)/2<sup>k<sub>t</sub></sup></code> with
+    <code>k<sub>t</sub> = v<sub>2</sub>(3x<sub>t</sub>+1)</code>, and let
+    <code>w = (k<sub>0</sub>, …, k<sub>τ−1</sub>)</code> be the valuation word. With total mass
+    <code>K<sub>τ</sub> = Σ k<sub>t</sub></code>, the reported coordinate is the remaining mass before
+    step <code>t</code>,
+  </p>
+  \[ R_t = K_\tau - \sum_{i<t} k_i, \qquad R_{t+1} = R_t - k_t. \]
+  <p>
+    Bins are half-open dyadic intervals; the two used throughout are
+    <code>64–95</code> (<code>64 ≤ R &lt; 96</code>) and <code>32–63</code> (<code>32 ≤ R &lt; 64</code>).
+    A transition <code>A → B</code> occurs at position <code>t</code> when <code>R<sub>t</sub></code>
+    is in <code>A</code> and <code>R<sub>t+1</sub></code> is in <code>B</code>.
+  </p>
+
+  <h3>2.2 Local descriptors</h3>
+  <ul>
+    <li><code>transition_k</code> — the step <code>k<sub>t</sub></code> at the transition; in exact
+      tests <code>transition_k=1</code> means <code>k<sub>t</sub>=1</code> exactly.</li>
+    <li><code>pre_k_window_3</code> — <code>(k<sub>t−2</sub>, k<sub>t−1</sub>, k<sub>t</sub>)</code>;
+      the value <code>1,1,1</code> is the all-1 local face we abbreviate <span class="term">pre111</span>.</li>
+    <li><code>local_window_4</code> — the rolling length-4 valuation window near the transition.</li>
+    <li><code>entry_route</code> — how the word occupies the <code>64–95</code> layer at the transition.</li>
+  </ul>
+
+  <div class="stance warn">
+    <span class="tag">Reading note — easy to misread</span>
+    <code>START_IN_LAYER</code> means the word <em>starts inside</em> the relevant
+    <code>remaining_K</code> layer at that occurrence. It does <strong>not</strong> mean "first
+    arrival into the layer." The alternative route considered here is
+    <code>INFLOW_FROM_96-127</code>, i.e. entering <code>64–95</code> from the band above.
+  </div>
+
+  <h3>2.3 Signature hierarchy</h3>
+  <p>
+    We keep the original A signature unchanged and call it <span class="term">A_start</span>. We name
+    a near-neighbour and an umbrella, but the umbrella is descriptive only.
+  </p>
+  <pre><code>A_all1_pass        64-95 -> 32-63,  transition_k=1,  pre_k_window_3 = 1,1,1
+ ├─ A_start        + entry_route = START_IN_LAYER        (= the original A signature)
+ └─ A_inflow       + entry_route = INFLOW_FROM_96-127    (near-A; different route)
+
+Other_start        START_IN_LAYER first pass that is NOT A_start</code></pre>
+  <p class="small">
+    Where the text says "A" without qualification, it means <code>A_start</code>. <code>A_inflow</code>
+    is treated as a separate near-A pass face, not as a relabelling of <code>A_start</code>.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">03</span> &nbsp;The boundary into 64–95</span><span>First-pass signature</span></div>
+  <h2 id="s3">3. The boundary into 64–95</h2>
+  <p>
+    Of the 550 trajectories in the universe, twelve never enter the <code>64–95</code> layer at all
+    (group <code>G0</code>); the remaining 538 do enter it (<code>G1</code>). Every trajectory in
+    <code>G1</code> eventually performs a <code>64–95 → 32–63</code> pass.
+  </p>
+
+  <table>
+    <caption>Table 1. Entry partition (<code>original_n_strict</code>).</caption>
+    <thead><tr><th>Group</th><th class="num">Count</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>G0</code></td><td class="num">12</td><td>never enters <code>64–95</code></td></tr>
+      <tr><td><code>G1</code></td><td class="num">538</td><td>enters <code>64–95</code>; all eventually pass to <code>32–63</code></td></tr>
+      <tr><td>Total</td><td class="num">550</td><td>sampled universe</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    The twelve <code>G0</code> trajectories — <code>7, 9, 18, 19, 25, 91, 121, 242, 243, 484, 485, 486</code>
+    — are sometimes tempting to read as "near-A failures." The data does not support that reading.
+    None reaches <code>64–95</code>, so each scores <code>0/4</code> on the A conditions for the trivial
+    reason that the source band is never occupied. Under the requested signature clustering they are
+    heterogeneous (every full profile is a singleton); they collapse to eight odd cores. We therefore
+    describe them as <span class="term">boundary non-entrants / low-K cases</span>, set aside from the
+    A neighbourhood rather than placed at its edge.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">04</span> &nbsp;First-pass structure</span><span>First-pass signature</span></div>
+  <h2 id="s4">4. First-pass structure inside 64–95</h2>
+  <p>
+    A does not appear at the first <code>64–95</code> event. The first event inside the layer is almost
+    always a <code>64–95 → 64–95</code> stay, and no trajectory's first entry event is A-like. Instead,
+    among the 365 trajectories that satisfy A anywhere, A coincides with the <em>first</em>
+    <code>64–95 → 32–63</code> pass in all 365 cases (<code>first_A_index = first_pass_index</code>,
+    with none before and none after). In this scanner, A is therefore a <em>within-layer first-pass</em>
+    signature, not an entry signature.
+  </p>
+
+  <p>
+    Waiting time inside the layer (events from first entry to first pass) is informative but
+    non-monotone. The A-hit rate rises into a peak and then falls:
+  </p>
+
+  <table>
+    <caption>Table 2. A-hit rate by first-pass waiting time (all <code>G1</code>). pre111 = share with all-1 pre-window before pass.</caption>
+    <thead><tr><th>Wait bucket</th><th class="num">Count</th><th class="num">A-hit rate</th><th class="num">median k=1 run</th><th class="num">pre111 share</th></tr></thead>
+    <tbody>
+      <tr><td><code>wait_0</code></td><td class="num">5</td><td class="num">0.000</td><td class="num">0.0</td><td class="num">0.000</td></tr>
+      <tr><td><code>wait_1</code></td><td class="num">9</td><td class="num">0.000</td><td class="num">1.0</td><td class="num">0.000</td></tr>
+      <tr><td><code>wait_2</code></td><td class="num">18</td><td class="num">0.056</td><td class="num">1.5</td><td class="num">0.056</td></tr>
+      <tr><td><code>wait_3_5</code></td><td class="num">65</td><td class="num">0.738</td><td class="num">3.0</td><td class="num">0.738</td></tr>
+      <tr><td><code>wait_6_10</code></td><td class="num">145</td><td class="num"><span class="pos">0.945</span></td><td class="num">4.0</td><td class="num">0.952</td></tr>
+      <tr><td><code>wait_11_plus</code></td><td class="num">296</td><td class="num">0.605</td><td class="num">4.0</td><td class="num">0.990</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    Waiting time alone does not describe A cleanly: the longest-wait stratum has the highest pre111
+    share yet a <em>lower</em> A-hit rate than the mid-wait stratum. Local features carry additional
+    separation. Two thresholds are nearly absorbing in this sample: every A-hit row has a
+    <code>k=1</code> run of length ≥ 3 and has pre111 before the pass (outside-threshold A-hit rate
+    <code>0.000</code> in both cases), and first-pass <code>START_IN_LAYER</code> alone lifts the
+    A-hit rate to <code>0.847</code>. We read A as a within-layer first-pass face that depends on the
+    wait <em>together with</em> the local all-1 context, not on the wait by itself.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">05</span> &nbsp;A_start and A_inflow</span><span>First-pass signature</span></div>
+  <h2 id="s5">5. A_start and A_inflow</h2>
+  <p>
+    Classifying each <code>G1</code> trajectory by its first-pass face gives four groups that partition
+    the 538:
+  </p>
+  <table>
+    <caption>Table 3. First-pass face classes (<code>G1 = 538</code>).</caption>
+    <thead><tr><th>Class</th><th class="num">Count</th><th>First-pass face</th></tr></thead>
+    <tbody>
+      <tr><td><code>A_start</code></td><td class="num">365</td><td><code>START_IN_LAYER</code> / <code>k=1</code> / pre111</td></tr>
+      <tr><td><code>A_inflow</code></td><td class="num">104</td><td><code>INFLOW_FROM_96-127</code> / <code>k=1</code> / pre111</td></tr>
+      <tr><td><code>Other_start</code></td><td class="num">66</td><td><code>START_IN_LAYER</code>, not A_start</td></tr>
+      <tr><td><code>Other_inflow</code></td><td class="num">3</td><td><code>INFLOW_FROM_96-127</code>, not A_inflow</td></tr>
+    </tbody>
+  </table>
+
+  <p>
+    <code>A_start</code> and <code>A_inflow</code> share the same local face and differ only by entry
+    route. After the first pass their coarse downstream paths are nearly identical: in both classes the
+    top next-3 and next-5 transition sequences are entirely <code>32–63 → 32–63</code> stays and cover
+    the whole class. The median time to the next boundary <code>32–63 → 16–31</code> is 23 events for
+    both, and the median time below 16 is 30 for both. The next boundary even wears the same face in
+    both classes:
+  </p>
+  <pre><code>32-63 -> 16-31    INFLOW_FROM_64-95 / transition_k=3 / pre_k_window_3 = 1,1,3+</code></pre>
+  <p>
+    The two are not identical on the integer side: <code>A_inflow</code> skews toward larger and longer
+    trajectories (higher mean/median <code>log2(n)</code>, word length, and <code>total_K</code>).
+    The descriptive summary is that <code>A_inflow</code> is the same all-1 pass face reached by a
+    different upstream route, not a separate downstream destiny. We keep it under the
+    <code>A_all1_pass</code> umbrella as a near-A face, distinct from <code>A_start</code> by route and
+    provenance.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">06</span> &nbsp;Other_start</span><span>First-pass signature</span></div>
+  <h2 id="s6">6. Other_start</h2>
+  <p>
+    Restricting to <code>START_IN_LAYER</code> first passes (431 rows = 365 <code>A_start</code> + 66
+    <code>Other_start</code>) isolates the cleanest comparison: same entry route, A versus not-A. The
+    66 <code>Other_start</code> rows are not random residue. The dominant deformation keeps the route
+    and <code>k=1</code> but breaks the all-1 pre-window:
+  </p>
+  <table>
+    <caption>Table 4. Leading <code>Other_start</code> first-pass signatures (<code>transition_k | pre_k_window_3</code>).</caption>
+    <thead><tr><th>Signature</th><th class="num">Count</th></tr></thead>
+    <tbody>
+      <tr><td><code>1 | 3+,1,1</code></td><td class="num">28</td></tr>
+      <tr><td><code>5 | 2,3+,3+</code></td><td class="num">7</td></tr>
+      <tr><td><code>3 | 2,2,3+</code></td><td class="num">5</td></tr>
+      <tr><td><code>1 | 3+,1</code></td><td class="num">4</td></tr>
+      <tr><td><code>1 | 2,3+,1</code></td><td class="num">4</td></tr>
+      <tr><td colspan="2" class="small">remaining cells low-count; see <code>startface_step2_other_start_signature_counts.csv</code></td></tr>
+    </tbody>
+  </table>
+  <p>
+    All 66 fail the pass-time all-1 context (none has <code>pre111</code>, the length-5 suffix
+    <code>1,1,1</code>, or <code>1,1,1,1</code> in <code>local_window_4</code> at the pass); 20 also
+    fail <code>transition_k=1</code>. Yet downstream they behave much like <code>A_start</code>: their
+    top next-5 sequence is again all <code>32–63 → 32–63</code> stays, and the median time to
+    <code>32–63 → 16–31</code> is 23, identical to <code>A_start</code>. <code>Other_start</code> is
+    therefore best treated as a <span class="term">separate START_IN_LAYER pass-face family</span> —
+    a dominant near-A deformation plus a low-count heterogeneous tail — that shares A's downstream
+    corridor but not its pass-time face. The separator lives at the pass, in the local all-1 context.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">07</span> &nbsp;Formation and maintenance</span><span>First-pass signature</span></div>
+  <h2 id="s7">7. Formation and maintenance of the all-1 context</h2>
+  <p>
+    Section 6 locates the separator at the pass; this section follows the all-1 context across the
+    interval from first <code>64–95</code> entry to first pass, tracking the first appearance of
+    <code>1</code>, <code>11</code>, <code>111</code>, and <code>1111</code> and whether each survives
+    to the pass.
+  </p>
+  <div class="flow">
+    <div><span class="lab">A_start (365)</span>all reach 111, all maintain it to the pass</div>
+    <div><span class="lab">A_inflow (104)</span>all reach 111, all maintain it to the pass</div>
+    <div><span class="lab">Other_start (66)</span>58 never reach 111; 8 reach but lose it; 0 maintain</div>
+  </div>
+  <p>
+    The distinction is not the <em>formation</em> of the all-1 context but its <em>maintenance</em>:
+    A-realizing trajectories maintain <code>111</code> to the pass without exception, while every
+    <code>Other_start</code> trajectory either never develops <code>111</code> or develops it and then
+    loses it. The maintained interval is short: the median distance from <code>111</code> formation to
+    the pass is one event, so the observation is better phrased as "the all-1 context is intact at the
+    pass" than "the all-1 context is held for a long time."
+  </p>
+  <div class="stance">
+    <span class="tag">Observation</span>
+    Among <code>START_IN_LAYER</code> trajectories, all A_start trajectories maintain the all-1 context
+    until the first pass, whereas Other_start trajectories either never develop the all-1 context or
+    lose it before the pass.
+  </div>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">08</span> &nbsp;Lost111 micro-cases</span><span>First-pass signature</span></div>
+  <h2 id="s8">8. Lost111 micro-cases</h2>
+  <p>
+    The eight <code>Other_start</code> trajectories that form <code>111</code> and then lose it are the
+    only group with an explicit "made it, then lost it" story, so we read them at the event level and
+    pair each with a matched <code>A_start</code> trajectory (matched on odd core, <code>log2(n)</code>,
+    <code>total_K</code>, first-pass wait, and word length; mean differences are small — e.g.
+    <code>|log2(n)|</code> 0.013, <code>|total_K|</code> 0.000).
+  </p>
+  <table>
+    <caption>Table 5. How 111 breaks in the eight Lost111 cases.</caption>
+    <thead><tr><th>Break</th><th class="num">Count</th></tr></thead>
+    <tbody>
+      <tr><td><code>111 → 1,1,3+</code></td><td class="num">5</td></tr>
+      <tr><td><code>111 → 1,1,2</code></td><td class="num">3</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Every break is the same kind of event: the final <code>1</code> is replaced by a larger
+    <code>k</code> (a <code>2</code> or a <code>3+</code>), interrupting the <code>k=1</code> run. But
+    the break is not at the doorstep: the median distance from break to pass is 6 events, so these are
+    not last-instant slips. Structurally, only <code>1/8</code> would have satisfied <code>A_start</code>
+    had <code>111</code> been maintained; the other seven also miss the pass-time <code>transition_k=1</code>.
+    We therefore decline to call all eight "near-A failures" and instead describe them as a
+    <span class="term">111-maintenance-failure micro-subset</span> of <code>Other_start</code>. The
+    representative trajectory cards (e.g. odd cores 639, 2273, 1515) are in
+    <code>lost111_step7_trajectory_cards.md</code>.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">09</span> &nbsp;Connection to prior work</span><span>First-pass signature</span></div>
+  <h2 id="s9">9. Connection to the finite-block diagnostics study</h2>
+  <p>
+    This paper is the trajectory-time end of a four-step program that began with a negative result. It
+    is worth stating the link explicitly, because the present finding gives a concrete face to the
+    object that earlier study left open.
+  </p>
+
+  <h3>9.1 What the diagnostics study closed</h3>
+  <p>
+    The finite-block diagnostics study compared the observed finite-integer escape-word measure against
+    an iid 2-adic reference and asked whether finite-block statistics could <em>generate</em> the
+    difference. Its verdicts were consistent and one-directional: the two diagnostic tests reached class
+    <span class="chip b">B</span> — the block score separates actual from iid and the separation grows
+    with block length (the +score AUC rises from 0.5363 at <code>L=3</code> to 0.5643 at
+    <code>L=6</code>) — while the two generative tests reached class <span class="chip c">C</span>:
+    finite-block reweighting overcorrects and a regularized maximum-entropy block projection does no
+    better than the damped baseline. No test reached A. What survived every test was a reproducible
+    state-distribution residual <em>indexed by bridge shape and parity</em> (bridge coefficient
+    ≈ 1.10–1.13, parity ≈ 0.37–0.44), most visible in the deep-tail focus state
+    <code>late_growth | tail_64_95 | even</code>. The closed claim was a boundary statement: along the
+    iid route, finite-block corrections detect the discrepancy but do not reconstruct it, and the
+    leftover structure is organized by a path-ordered feature.
+  </p>
+
+  <h3>9.2 Shared coordinates</h3>
+  <p>
+    The two studies are not loosely analogous; they sit on the same axis. The diagnostics focus cell
+    is the deep tail <code>tail_64_95</code> of the valuation-depth coordinate <code>x_K</code>; Paper 1
+    showed the closely related <code>remaining_K</code> boundary-distance coordinate binds the same
+    <code>actual − iid</code> difference most sharply, with the deficit running through the
+    <code>32–63</code> / <code>64–95</code> bands. The present paper lives inside that very region: the
+    <code>64–95</code> layer studied here is the deep-tail band where the diagnostics residual was
+    largest. (The coordinates are related remaining-mass quantities, both binned at <code>64–95</code>,
+    but are not defined identically; see §10.)
+  </p>
+
+  <h3>9.3 A path-ordered carrier for a path-ordered residual</h3>
+  <p>
+    The diagnostics residual was indexed by <em>bridge shape</em> — a path-ordered feature — and the
+    discussion there singled out "exchangeability breaking with order dependence" as the family the
+    data pointed to: order matters, and finite-block constructions that are largely order-light could
+    not generate the measure. The present finding is a concrete instance of exactly that kind of object.
+    Inside the <code>64–95</code> band, the carrier of the conditional excess is not a position-free
+    block statistic but a <em>first-pass</em> face anchored at the boundary, and the cleanest separator
+    of A from its same-route siblings is the <em>maintenance</em> of an all-1 run up to the pass
+    (§7), not its formation. Maintenance is intrinsically order-dependent: it is a statement about a
+    run surviving along the path to the boundary. A finite-block, order-light generator is the wrong
+    instrument to synthesize it — which is consistent with why finite blocks diagnosed but did not
+    generate the discrepancy.
+  </p>
+
+  <div class="stance">
+    <span class="tag">The link in one line</span>
+    The diagnostics study isolated a deep-tail residual indexed by path shape that finite blocks could
+    not generate; this paper exhibits, in the same deep-tail band, a path-ordered first-pass carrier
+    (boundary-anchored, maintenance-defined) — the kind of structure that residual was pointing at.
+  </div>
+
+  <h3>9.4 What this does and does not settle</h3>
+  <p>
+    This is a point of contact, not an identification. Showing that A is a boundary-anchored,
+    maintenance-defined face does not generate the iid-reference discrepancy, recover the bridge/parity
+    residual numerically, or close any test that the diagnostics study left at B or C. The route split
+    here (<code>START_IN_LAYER</code> vs <code>INFLOW_FROM_96-127</code>, with <code>A_inflow</code>
+    skewing to larger <code>log2(n)</code>) and the A signature's integer-side parity/prefix shadow
+    reported in Paper 2 are suggestive neighbours of the diagnostics <em>parity</em> coordinate, but we
+    do not assert they are the same coordinate. The honest statement is that the present first-pass face
+    is one realization of the continuations the diagnostics study named — stopping boundaries and
+    order-dependent structure — and that it is consistent with, but does not resolve, that study's open
+    residual.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">10</span> &nbsp;Interpretation boundaries</span><span>First-pass signature</span></div>
+  <h2 id="s10">10. Interpretation boundaries</h2>
+  <ul>
+    <li>The universe is a sampled, final-state-conditioned ensemble of long words, not an exhaustive
+      enumeration of integers. All shares and rates are within-sample.</li>
+    <li>All statements are about a scanner-defined coordinate system (<code>remaining_K</code>,
+      <code>original_n_strict</code> mode). A different mode (<code>odd_core</code>, <code>odd_only</code>)
+      shifts counts; the appendix reports the dependence explicitly.</li>
+    <li>The cross-study link of §9 is a correspondence, not an identity. The diagnostics study's
+      <code>x_K</code> valuation-depth coordinate and the <code>remaining_K</code> boundary coordinate
+      used here are related remaining-mass quantities binned at <code>64–95</code>, but they are not
+      defined identically, and the two studies use different reference measures (iid 2-adic word vs
+      resampled valuation word) and universes.</li>
+    <li>The findings are concentration and correspondence statements. No generative mechanism for the
+      A signature, and no causal role for the all-1 context, is claimed or implied.</li>
+    <li>Low-count cells (e.g. <code>Other_inflow = 3</code>, the long tail of Table 4, the eight
+      Lost111 cases) are candidate structure, not load-bearing claims.</li>
+    <li>"Maintenance" is a descriptive label for "the all-1 context is present at the pass after being
+      present earlier in the same layer occupancy"; it is not a dynamical assertion.</li>
+  </ul>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">11</span> &nbsp;Conclusion</span><span>First-pass signature</span></div>
+  <h2 id="s11">11. Conclusion</h2>
+  <p>The picture that the observations support, stated descriptively:</p>
+  <div class="ladder">enters 64-95
+   |
+   v
+first pass  64-95 -> 32-63
+   |
+   +-- A_all1_pass  (transition_k=1, pre111)
+   |     |
+   |     +-- A_start    START_IN_LAYER      365   (= the original A signature)
+   |     +-- A_inflow   INFLOW_FROM_96-127  104   (near-A; same downstream corridor)
+   |
+   +-- Other_start      START_IN_LAYER non-A  66
+         |
+         +-- never forms 111            58
+         +-- forms 111, loses it (2/3+) 8     (Lost111 micro-subset)</div>
+  <ul>
+    <li><code>A_start</code> is a <strong>within-layer first-pass face</strong>: the
+      <code>START_IN_LAYER</code> all-1 first pass out of <code>64–95</code>, coinciding with the first
+      pass whenever it occurs.</li>
+    <li><code>A_inflow</code> is an <strong>inflow analogue</strong> of the same all-1 pass face, sharing
+      the downstream corridor but reached by a different upstream route.</li>
+    <li><code>Other_start</code> is a <strong>separate START_IN_LAYER pass-face family</strong>;
+      it shares A's downstream corridor but not its pass-time all-1 face.</li>
+    <li>The twelve no-transition trajectories are <strong>boundary non-entrants</strong>, set aside from
+      the A neighbourhood.</li>
+    <li>The cleanest observational separator of <code>A_start</code> from its same-route siblings is the
+      <strong>maintenance of the all-1 context to the pass</strong>, not its first formation.</li>
+    <li>Read against the prior <a href="05_negative_results.html">finite-block diagnostics</a> study,
+      this maintenance-defined, boundary-anchored face is a <strong>concrete path-ordered carrier</strong>
+      in the same deep-tail band where that study's bridge/parity residual was largest — a point of
+      contact with its open residual, not a resolution of it (§9).</li>
+  </ul>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">A</span> &nbsp;External overlay</span><span>First-pass signature</span></div>
+  <h2 id="appA">Appendix A — Rozier–Terracol overlay</h2>
+  <p>
+    As an external benchmark only, we overlay the Rozier–Terracol Appendix C acyclic paradoxical
+    starting integers (arXiv:2502.00948) onto the <code>remaining_K</code> coordinate and the A
+    signature. Their notion of "paradoxical" — overshoot of the initial value past the stopping time —
+    is defined differently from the mass-deficit / conditional-excess configuration studied here, so
+    this is a correspondence check, not a claim that the two notions coincide.
+  </p>
+  <p>
+    From 593 Appendix C occurrences (550 distinct starting integers), the full A signature is hit by
+    365/550 = 0.664 under <code>original_n_strict</code> and 377/550 = 0.685 under <code>odd_core</code>
+    mapping; the broader <code>64–95 → 32–63</code> corridor is hit by ~0.97. A robustness recheck
+    (extraction audit, mapping-mode comparison, strict-event definitions, baselines, negative controls)
+    returns the verdict <span class="term">partially robust</span>: the strict A-event share stays high
+    under both mappings, while random same-range negative controls land far lower (full-A shares around
+    0.17–0.21).
+  </p>
+  <table>
+    <caption>Table A1. Full A-signature share vs negative controls (<code>original_n_strict</code>, counts over 550).</caption>
+    <thead><tr><th>Set</th><th class="num">Full-A share</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Rozier–Terracol App. C</td><td class="num"><span class="pos">0.664</span></td><td>benchmark</td></tr>
+      <tr><td>random same-count</td><td class="num">0.218</td><td>negative control</td></tr>
+      <tr><td>random same-size range</td><td class="num">0.205</td><td>negative control</td></tr>
+      <tr><td>consecutive from min</td><td class="num">0.204</td><td>negative control</td></tr>
+      <tr><td>odd random same range</td><td class="num">0.175</td><td>negative control</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Two caveats are recorded rather than hidden. First, the overlap depends on mapping Rozier–Terracol
+    integers through their odd cores into the odd-accelerated coordinate, while ordinary stopping
+    coordinates are computed on the original integer. Second, the most strongly enriched matched
+    baselines (e.g. residue/prefix matching) are the supported ones; <code>log2</code>-matched baselines
+    have no actual support because the benchmark integers sit below the sampled actual universe. A
+    non-hit taxonomy (which benchmark integers miss strict A, and why) is given in
+    <code>rozier_nonhit_classification.md</code>; most non-hits still traverse the broad corridor but
+    miss strict A by route or local <code>k</code>-context. This material supports an appendix-level
+    benchmark note only.
+  </p>
+
+  <hr class="sec">
+  <div class="chapter-mark"><span><span class="num">B</span> &nbsp;Files</span><span>First-pass signature</span></div>
+  <h2 id="appB">Appendix B — Output file index</h2>
+  <p class="small">Primary reports underlying each section. Per-trajectory CSVs are referenced inline above.</p>
+  <table>
+    <thead><tr><th>Section</th><th>Report</th></tr></thead>
+    <tbody>
+      <tr><td>§3 boundary</td><td><code>no_64_95_to_32_63_report.md</code>, <code>entry_64_95_boundary_report.md</code></td></tr>
+      <tr><td>§4 first-pass / wait</td><td><code>joint_wait_feature_report.md</code></td></tr>
+      <tr><td>§5 A_start vs A_inflow</td><td><code>postpass_Astart_Ainflow_report.md</code></td></tr>
+      <tr><td>§6 Other_start</td><td><code>startface_Astart_Otherstart_report.md</code></td></tr>
+      <tr><td>§7 all-1 formation</td><td><code>all1_formation_report.md</code></td></tr>
+      <tr><td>§8 Lost111</td><td><code>lost111_microcase_report.md</code>, <code>lost111_step7_trajectory_cards.md</code></td></tr>
+      <tr><td>§6 carrier (Paper 2)</td><td><code>paradoxical_64_95_deep_dive.md</code>, <code>paradoxical_sequence_report.md</code></td></tr>
+      <tr><td>App. A overlay</td><td><code>rozier_overlay_report.md</code>, <code>rozier_overlay_recheck_report.md</code>, <code>rozier_A_occurrence_neighborhood_report.md</code>, <code>rozier_nonhit_classification.md</code></td></tr>
+    </tbody>
+  </table>
+
+  <nav class="footer-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="collatz_delta_localization_en.html">Δ-localization</a>
+    <a href="band_signatures.html">Band signatures</a>
+    <a href="05_negative_results.html">Prior: Negative Results</a>
+    <a href="https://arxiv.org/abs/2502.00948">Rozier–Terracol</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+  <p class="small">Observational follow-up paper. No mechanism, causality, or proof is claimed.</p>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Band-specific sequence signatures of conditional excess under mass deficit</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(','\\)']], displayMath: [['\\[','\\]']] } };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js" id="MathJax-script" async></script>
+<style>
+  :root{
+    --bg:#faf8f3; --ink:#1c1b18; --muted:#5d5a52; --line:#e0dbcf;
+    --rule:#cfc8b8; --accent:#6b5a3e; --accentbg:#f1ece0;
+    --warn:#8a5a1e; --warnbg:#f6ead4; --chipb:#5b6b4d; --chipc:#8a6a4a;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family: Georgia,"Times New Roman","Hiragino Mincho ProN",serif;
+    line-height:1.8; font-size:17px;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 22px 96px; }
+  nav.site-nav, nav.footer-nav{
+    display:flex; flex-wrap:wrap; gap:2px 16px; font-size:13.5px;
+    font-family: -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    padding:18px 0; border-bottom:1px solid var(--line); margin-bottom:10px;
+  }
+  nav.footer-nav{ border-bottom:none; border-top:1px solid var(--line); margin-top:48px; }
+  nav a{ color:var(--muted); text-decoration:none; }
+  nav a:hover{ color:var(--accent); text-decoration:underline; }
+  nav a[aria-current="page"]{ color:var(--ink); font-weight:600; }
+  .chapter-mark{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:12px; letter-spacing:.04em; color:var(--muted);
+    text-transform:uppercase; margin:26px 0 4px; padding-bottom:8px;
+    border-bottom:2px solid var(--rule);
+  }
+  .chapter-mark .num{ font-weight:700; color:var(--accent); }
+  h1{ font-size:30px; line-height:1.3; margin:.5em 0 .2em; letter-spacing:.01em; }
+  .subtitle{ color:var(--muted); font-size:16px; margin:.2em 0 1.4em;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  h2{ font-size:21px; margin:2em 0 .5em; padding-top:.4em;
+      border-top:1px solid var(--line); }
+  h3{ font-size:17px; margin:1.5em 0 .3em; color:var(--accent);
+      font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  p{ margin:.7em 0; }
+  p.lead{ font-size:18.5px; color:#2c2a25; }
+  em{ font-style:italic; }
+  code{ font-family:"SF Mono",Menlo,Consolas,monospace; font-size:.86em;
+        background:var(--accentbg); padding:.08em .35em; border-radius:3px; }
+  pre{ background:#fff; border:1px solid var(--line); border-radius:6px;
+       padding:12px 16px; overflow-x:auto; font-size:13.5px; line-height:1.55; }
+  pre code{ background:none; padding:0; }
+  .term{ font-weight:600; color:var(--accent); }
+  .small{ font-size:13.5px; color:var(--muted);
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  ul,ol{ padding-left:1.3em; }
+  li{ margin:.35em 0; }
+  table{ width:100%; border-collapse:collapse; margin:1.2em 0; font-size:14.5px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  caption{ caption-side:top; text-align:left; color:var(--muted);
+    font-size:13px; margin-bottom:.5em; }
+  th,td{ padding:7px 10px; border-bottom:1px solid var(--line); text-align:left; }
+  thead th{ border-bottom:2px solid var(--rule); font-weight:600; }
+  th.num,td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  tbody tr:last-child td{ border-bottom:2px solid var(--rule); }
+  .stance{ border-left:4px solid var(--accent); background:var(--accentbg);
+    padding:14px 18px; margin:1.4em 0; border-radius:0 6px 6px 0; font-size:15.5px; }
+  .stance.warn{ border-left-color:var(--warn); background:var(--warnbg); }
+  .stance .tag{ display:block; font-size:11.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--accent); font-weight:700;
+    margin-bottom:.4em; font-family:-apple-system,sans-serif; }
+  .stance.warn .tag{ color:var(--warn); }
+  .flow{ display:flex; gap:10px; flex-wrap:wrap; margin:1.2em 0; }
+  .flow > div{ flex:1; min-width:150px; border:1px solid var(--line);
+    border-radius:6px; padding:10px 14px; background:#fff; font-size:14px;
+    font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; }
+  .flow .lab{ font-size:11px; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent); font-weight:700; display:block; margin-bottom:3px; }
+  .chip{ display:inline-block; font-size:11.5px; font-weight:700; color:#fff;
+    border-radius:4px; padding:1px 7px; vertical-align:middle;
+    font-family:-apple-system,sans-serif; }
+  .chip.b{ background:var(--chipb); } .chip.c{ background:var(--chipc); }
+  .neg{ color:#a23c2e; } .pos{ color:#2e6b4f; }
+  .chap-nav{ display:flex; align-items:center; margin-top:42px; font-size:14px;
+    font-family:-apple-system,sans-serif; }
+  .chap-nav .spacer{ flex:1; }
+  .chap-nav a{ color:var(--accent); text-decoration:none; }
+  .toc{ font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:14.5px; background:#fff; border:1px solid var(--line);
+    border-radius:8px; padding:16px 22px; margin:1.5em 0; }
+  .toc ol{ margin:.3em 0; }
+  .toc a{ color:var(--ink); text-decoration:none; }
+  .toc a:hover{ color:var(--accent); text-decoration:underline; }
+  hr.sec{ border:none; border-top:2px solid var(--rule); margin:3.2em 0 0; }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <nav class="site-nav" aria-label="Site">
+    <a href="../index.html">Home</a>
+    <a href="index.html">Paper 1 (Δ-localization)</a>
+    <a href="#abstract" aria-current="page">Paper 2 (Band signatures)</a>
+    <a href="https://arxiv.org/abs/2502.00948">Rozier–Terracol</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+
+  <div class="chapter-mark"><span><span class="num">DELTA II</span> &nbsp;measurement paper</span><span>Band signatures</span></div>
+
+  <h1 id="abstract">Band-specific sequence signatures of conditional excess under mass deficit<br>in accelerated Collatz trajectories</h1>
+  <p class="subtitle">A measurement of <em>which</em> sequences carry the reverse-sign discrepancy — not an account of why.</p>
+
+  <div class="stance">
+    <span class="tag">Abstract</span>
+    We compare observed accelerated Collatz trajectories ("actual") against a structureless
+    surrogate in which the per-step valuation word is resampled independently ("iid word").
+    On a <code>remaining_K</code> coordinate partitioned into dyadic bins, three adjacent
+    downward transitions show the same reversal: the from-bin carries <em>less</em> actual
+    mass than the surrogate predicts, yet trajectories occupying that bin pass downstream
+    <em>more</em> often in the actual ensemble. We call this co-occurrence of mass deficit
+    and conditional excess a <em>paradoxical</em> configuration, as an observational label only.
+    The conditional excess appears concentrated in a small number of sequence-level signatures.
+    The clearest instance, <code>64-95 → 32-63</code>, is carried by <code>START_IN_LAYER</code>
+    with <code>transition_k=1</code> and <code>pre_k_window_3=1,1,1</code> (the <em>A signature</em>).
+    A band-by-band map finds the configuration shared but the signature band-specific. Projected
+    onto integer coordinates, the A signature leaves a weak, multivariate, reproducible
+    integer-side shadow that no single coordinate explains. As an external benchmark, a substantial
+    fraction of Rozier–Terracol Appendix C paradoxical integers map onto the A signature.
+    We make no causal or mechanistic claim; the contribution is a localization-and-correspondence map.
+  </div>
+
+  <div class="toc">
+    <strong>Contents</strong>
+    <ol>
+      <li><a href="#s1">Introduction</a></li>
+      <li><a href="#s2">Related work</a></li>
+      <li><a href="#s3">Data and null model</a></li>
+      <li><a href="#s4">Operational definitions</a></li>
+      <li><a href="#s5">The remaining_K chain: mass deficit with conditional excess</a></li>
+      <li><a href="#s6">Paradoxical sequences: sequence-level carriers</a></li>
+      <li><a href="#s7">Band Signature Map</a></li>
+      <li><a href="#s8">Integer-side projection</a></li>
+      <li><a href="#s9">Matched control</a></li>
+      <li><a href="#s10">Discussion</a></li>
+      <li><a href="#s11">Limitations</a></li>
+      <li><a href="#s12">Conclusion</a></li>
+      <li><a href="#sa">Appendix A — Rozier–Terracol overlay</a></li>
+      <li><a href="#sf">Suggested figures and tables</a></li>
+    </ol>
+  </div>
+
+  <hr class="sec">
+
+  <!-- ============ 1 ============ -->
+  <div class="chapter-mark" id="s1"><span><span class="num">01</span> &nbsp;Introduction</span><span>Band signatures</span></div>
+  <h1>1. Introduction</h1>
+
+  <p class="lead">A companion study located a difference between observed Collatz trajectories and
+  a structureless null model on a <code>remaining_K</code> chain. This paper takes that located
+  difference as given and asks the next, narrower question: which sequences carry it?</p>
+
+  <p>The object of study is a difference signal, written informally <code>actual − iid</code>,
+  between two ensembles. The first is the ensemble of observed accelerated Collatz trajectories
+  within a sampled universe of integers. The second is a surrogate ("iid word") ensemble obtained
+  by resampling the per-step valuation word independently from a fixed marginal, which removes
+  sequential structure while preserving the marginal. The difference between the two is the
+  quantity we localize and decompose throughout.</p>
+
+  <p>Our central observation is a sign reversal. On the <code>remaining_K</code> chain, the
+  observed ensemble places <em>less</em> mass in certain from-bins than the surrogate does; yet
+  conditioned on occupying such a bin, the observed ensemble transits downstream <em>more</em>
+  often than the surrogate does. Mass placement and local transition strength move in opposite
+  directions. We use the term <em>paradoxical</em> for this configuration as a label only, with no
+  implication of contradiction or mechanism.</p>
+
+  <p>The paper proceeds by sharpening this observation step by step: establish the reversal on
+  three transitions (§5); decompose the conditional excess into sequence-level carriers, finding the
+  cleanest example at <code>64-95 → 32-63</code> (§6); map the carriers across bands and find the
+  structure shared but the signature band-specific (§7); project the signature onto integer
+  coordinates and find a weak reproducible shadow (§8) that survives only jointly-controlled
+  matching (§9). An external benchmark overlay is reported as Appendix A.</p>
+
+  <div class="stance warn">
+    <span class="tag">Stance</span>
+    Throughout, we restrict ourselves to observational language: <em>we observe</em>, <em>we find</em>,
+    <em>is concentrated in</em>, <em>is carried by</em>, <em>is consistent with</em>, <em>does not imply</em>.
+    We do not write <em>because</em>, <em>mechanism</em>, or <em>proof</em>.
+  </div>
+
+  <!-- ============ 2 ============ -->
+  <div class="chapter-mark" id="s2"><span><span class="num">02</span> &nbsp;Related work</span><span>Band signatures</span></div>
+  <h1>2. Related work</h1>
+
+  <p>The accelerated Collatz map and parity-vector descriptions of trajectories are classical
+  tools, and the statistical behavior of stopping times has a long literature. Our null model is
+  in the spirit of comparing observed valuation words against an independent baseline.</p>
+
+  <p>The most directly relevant external reference is the work of Rozier and Terracol on
+  <em>paradoxical behavior in Collatz sequences</em> (arXiv:2502.00948), which enumerates starting
+  integers whose accelerated trajectories exceed their initial value after the stopping time, and a
+  subsequent analysis by Niu of parity vectors and paradoxical sequences in the accelerated map
+  (arXiv:2605.13886). We stress that the Rozier–Terracol notion of "paradoxical" — overshoot of the
+  initial value past the stopping time — is defined differently from the configuration studied here,
+  which concerns a mass-deficit / conditional-excess split on a <code>remaining_K</code> chain. We use
+  the Rozier–Terracol enumeration only as an external benchmark (Appendix A) and do not assert that
+  the two notions describe the same phenomenon.</p>
+
+  <!-- ============ 3 ============ -->
+  <div class="chapter-mark" id="s3"><span><span class="num">03</span> &nbsp;Data and null model</span><span>Band signatures</span></div>
+  <h1>3. Data and null model</h1>
+
+  <p>The analysis universe is a sampled ensemble of long accelerated Collatz words defined on a
+  final-state-conditioned population of integers, identical to the universe used in the companion
+  localization study. The ensemble is sampled rather than exhaustively enumerated; this is recorded
+  explicitly as a limitation (§11).</p>
+
+  <div class="flow">
+    <div><span class="lab">Actual</span>Observed accelerated Collatz trajectories of integers in the sampled universe.</div>
+    <div><span class="lab">iid word (surrogate)</span>Independent valuation words from the pipeline's tilted marginal; removes sequential structure, preserves the marginal. Constructed in §4.9.</div>
+  </div>
+
+  <p>All quantities reported below — <code>from mass</code>, <code>pass rate</code>,
+  <code>conditional delta</code>, <code>pass share</code>, and <code>support</code> — are computed in
+  matched form on these two ensembles. The operational forms of every coordinate are fixed by the
+  analysis pipeline and stated in §4. <em>Support</em> denotes a weighted occurrence support; cells
+  with weighted support below <code>0.002</code> are flagged as low-support and treated as candidates
+  rather than claims.</p>
+
+  <!-- ============ 4 ============ -->
+  <div class="chapter-mark" id="s4"><span><span class="num">04</span> &nbsp;Operational definitions</span><span>Band signatures</span></div>
+  <h1>4. Operational definitions</h1>
+
+  <p>All quantities are defined on finite valuation words and follow the operational forms fixed by
+  the analysis pipeline. For an odd integer trajectory under the accelerated Collatz map, let</p>
+  \[ x_{t+1} = (3x_t + 1)/2^{k_t}, \qquad k_t = v_2(3x_t + 1), \]
+  <p>and let the associated valuation word be \( w = (k_0, k_1, \ldots, k_{\tau-1}) \). For sampled
+  actual integers, this word is obtained by tracing the accelerated odd trajectory until the escape
+  condition used in the sampling pipeline. For iid controls, the word is drawn from the iid
+  valuation-word model of §4.9.</p>
+
+  <h3>4.1 remaining_K</h3>
+  <p>For a valuation word \(w\), define the total valuation mass \( K_\tau = \sum_{t=0}^{\tau-1} k_t \).
+  At occurrence position \(t\), the remaining \(K\)-mass before applying \(k_t\) is</p>
+  \[ R_t = K_\tau - \sum_{i<t} k_i, \qquad R_{t+1} = R_t - k_t. \]
+  <p>The reported <code>remaining_K</code> coordinate is \(R_t\).</p>
+
+  <h3>4.2 remaining_K bins</h3>
+  <p>The bins are half-open intervals; a transition <code>A → B</code> occurs at position \(t\) when
+  \(R_t\) lies in bin <code>A</code> and \(R_{t+1}\) lies in bin <code>B</code>.</p>
+<pre><code>0-1      : 0   &lt;= R &lt; 2
+2-3      : 2   &lt;= R &lt; 4
+4-7      : 4   &lt;= R &lt; 8
+8-15     : 8   &lt;= R &lt; 16
+16-31    : 16  &lt;= R &lt; 32
+32-63    : 32  &lt;= R &lt; 64
+64-95    : 64  &lt;= R &lt; 96
+96-127   : 96  &lt;= R &lt; 128
+128-191  : 128 &lt;= R &lt; 192
+192+     : 192 &lt;= R</code></pre>
+
+  <h3>4.3 transition_k</h3>
+  <p>For a transition occurrence at position \(t\), <code>transition_k</code> is the valuation step
+  \(k_t\). In capped pattern summaries, values greater than \(2\) are reported as <code>3+</code>; in
+  exact event tests such as the A signature, <code>transition_k=1</code> means \(k_t = 1\) exactly.</p>
+
+  <h3>4.4 pre_k_window_3 and local windows</h3>
+  <p>For a transition occurrence at position \(t\),
+  \( \texttt{pre\_k\_window\_3} = (k_{t-2}, k_{t-1}, k_t) \), truncated at the start of the word when
+  \(t<2\). <code>pre_k_window_5</code> is the length-5 analogue. Pattern tables cap entries greater than
+  \(2\) as <code>3+</code>. The <code>local_rolling_k_window_4</code> is the set of length-4 valuation
+  windows whose index range contains the occurrence \(t\), subject to the word boundary;
+  <code>local_rolling_k_window_3</code> is the length-3 analogue.</p>
+
+  <h3>4.5 entry route</h3>
+  <p>For each <code>remaining_K</code> bin, let \(s\) be the first position whose pre-step
+  <code>remaining_K</code> value lies in that bin. An occurrence at position \(t\) in that bin has entry
+  route <code>START_IN_LAYER</code> if \(s=0\), and otherwise
+  <code>INFLOW_FROM_&lt;previous bin&gt;</code>, where the previous bin is the bin at position \(s-1\).</p>
+  <div class="stance">
+    <span class="tag">Definition note</span>
+    <code>START_IN_LAYER</code> means the word <em>begins</em> inside that <code>remaining_K</code> layer.
+    It does <strong>not</strong> mean the occurrence is the first occurrence in the layer; an occurrence
+    may carry the <code>START_IN_LAYER</code> route while not being the first entry event of its
+    trajectory into the layer.
+  </div>
+
+  <h3>4.6 pass and stay</h3>
+  <p>For a target transition from bin \(A\) to bin \(B\), an occurrence starting in bin \(A\) is
+  <code>pass</code> if its post-step bin is \(B\), and <code>stay</code> if its post-step bin is still
+  \(A\). Other exits are excluded from the pass/stay conditional comparison.</p>
+
+  <h3>4.7 A signature</h3>
+  <p>The canonical A signature is an occurrence-level condition; all conditions must hold on the
+  <em>same</em> transition occurrence.</p>
+<pre><code>from_bin       = 64-95
+to_bin         = 32-63
+entry_route    = START_IN_LAYER
+transition_k   = 1
+pre_k_window_3 = 1,1,1</code></pre>
+
+  <h3>4.8 focus_state</h3>
+  <p><code>focus_state</code> is a composite state label fixed by the pipeline; the specific state
+  attended to here is <code>late_growth|deep_32_63|even</code>.</p>
+
+  <h3>4.9 actual and iid word samples</h3>
+  <p>The <strong>actual</strong> sample consists of accelerated Collatz valuation words generated from
+  sampled odd integers in the specified power/layer ranges of the pipeline. The <strong>iid
+  control</strong> sample consists of independent valuation words generated by drawing valuation steps
+  from the tilted valuation distribution used in the pipeline and stopping when the accumulated
+  log-position crosses the layer escape threshold. Each iid word carries the Monte Carlo weight
+  assigned by the sampling procedure.</p>
+
+  <h3>4.10 Weighting and derived statistics</h3>
+  <p>Sequence-level tables are occurrence-weighted unless otherwise stated. Integer-side projection
+  tables report the associated integer support separately, because a single integer may contribute
+  more than one qualifying occurrence. <code>from mass</code> is the weighted mass placed in a from-bin;
+  <code>pass rate</code> is the conditional probability of passing given occupancy;
+  <code>conditional delta</code> is <code>actual pass rate − iid pass rate</code>; <code>mass delta</code>
+  is <code>actual from mass − iid from mass</code>; <code>pass share</code> is the share of total pass
+  mass attributable to a sub-population.</p>
+
+  <h3>4.11 Paradoxical configuration (observational label)</h3>
+  <p>A from-bin exhibits the <em>paradoxical configuration</em> when <code>mass delta &lt; 0</code> (mass
+  deficit) and <code>conditional delta &gt; 0</code> (conditional excess) hold simultaneously. The term is
+  used as an observational label only.</p>
+
+  <!-- ============ 5 ============ -->
+  <div class="chapter-mark" id="s5"><span><span class="num">05</span> &nbsp;The remaining_K chain</span><span>Band signatures</span></div>
+  <h1>5. The remaining_K chain: mass deficit with conditional excess</h1>
+
+  <p>We examine three adjacent downward transitions and report, for each, the from-bin mass in both
+  ensembles, the conditional pass rates, and their differences.</p>
+
+  <table>
+    <caption>Table 1. The reverse-sign chain. Mass Δ and conditional Δ carry opposite signs in all three transitions.</caption>
+    <thead><tr><th>transition</th><th class="num">mass Δ</th><th class="num">actual pass</th><th class="num">iid pass</th><th class="num">conditional Δ</th><th class="num">support</th></tr></thead>
+    <tbody>
+      <tr><td><code>96-127 → 64-95</code></td><td class="num neg">−0.01306</td><td class="num">0.17651</td><td class="num">0.16743</td><td class="num pos">+0.00907</td><td class="num">0.0503</td></tr>
+      <tr><td><code>64-95 → 32-63</code></td><td class="num neg">−0.07523</td><td class="num">0.11625</td><td class="num">0.10839</td><td class="num pos">+0.00786</td><td class="num">0.6081</td></tr>
+      <tr><td><code>32-63 → 16-31</code></td><td class="num neg">−0.18021</td><td class="num">0.10622</td><td class="num">0.10160</td><td class="num pos">+0.00462</td><td class="num">4.0993</td></tr>
+    </tbody>
+  </table>
+
+  <p>In all three transitions the from-bin is thinner in the actual ensemble than in the surrogate,
+  while the conditional pass rate is higher in the actual ensemble. Mass placement and local transition
+  strength carry opposite signs; this is the paradoxical configuration we decompose.</p>
+
+  <p>The three transitions are not equally read. The conditional excess is numerically largest at
+  <code>96-127 → 64-95</code>, but that transition has by far the smallest support, and its leading
+  sub-patterns are dominated by low-support cells. The mass deficit grows monotonically down the chain
+  and is most stably measured at <code>32-63 → 16-31</code>. The transition <code>64-95 → 32-63</code>
+  sits in the middle: a clearly negative mass delta, a positive conditional delta, and adequate
+  support. We therefore treat <code>64-95 → 32-63</code> as the primary object of decomposition,
+  <code>32-63 → 16-31</code> as secondary, and hold <code>96-127 → 64-95</code> as provisional.</p>
+
+  <!-- ============ 6 ============ -->
+  <div class="chapter-mark" id="s6"><span><span class="num">06</span> &nbsp;Paradoxical sequences</span><span>Band signatures</span></div>
+  <h1>6. Paradoxical sequences: sequence-level carriers</h1>
+
+  <p>Having established the reversal, we ask whether the conditional excess is spread evenly across
+  trajectories or concentrated in particular sequence-level signatures. We compare four groups within
+  each from-bin: <span class="chip b">actual pass</span> <span class="chip c">iid pass</span> actual stay,
+  iid stay.</p>
+
+  <h3>6.1 Entry-route decomposition of 64-95 → 32-63</h3>
+  <p>Splitting the cleanest transition by entry route is the single most informative cut.</p>
+  <table>
+    <caption>Table 2. Entry-route decomposition. The conditional excess is concentrated in <code>START_IN_LAYER</code>.</caption>
+    <thead><tr><th>route</th><th class="num">mass Δ</th><th class="num">conditional Δ</th><th class="num">pass share (actual)</th><th class="num">support</th></tr></thead>
+    <tbody>
+      <tr><td><code>ALL</code></td><td class="num neg">−0.07523</td><td class="num pos">+0.00786</td><td class="num">1.000</td><td class="num">0.6081</td></tr>
+      <tr><td><code>START_IN_LAYER</code></td><td class="num neg">−0.03703</td><td class="num pos">+0.00430</td><td class="num">0.894</td><td class="num">0.4414</td></tr>
+      <tr><td><code>INFLOW_FROM_96-127</code></td><td class="num neg">−0.03820</td><td class="num neg">−0.00059</td><td class="num">0.106</td><td class="num">0.1667</td></tr>
+    </tbody>
+  </table>
+  <p>The conditional excess is concentrated in <code>START_IN_LAYER</code>. The inflow route carries a
+  comparable from-mass deficit but a slightly <em>negative</em> conditional delta; it does not carry the
+  excess. We therefore read the configuration not as "the actual ensemble falls downstream more
+  readily" in general, but more specifically as "trajectories that begin in the <code>64-95</code> bin
+  fall downstream more readily in the actual ensemble." This is one increment of information beyond the
+  raw conditional delta.</p>
+
+  <h3>6.2 Pattern concentration within START_IN_LAYER</h3>
+  <p>Within <code>START_IN_LAYER</code>, the strongest positive pass-side concentrations are short and
+  all-1: <code>transition_k=1</code> (pass-share delta +0.0434), <code>pre_k_window_3=1,1,1</code>
+  (+0.0238), <code>local_rolling_k_window_3=1,1,1</code> (+0.0130),
+  <code>local_rolling_k_window_4=1,1,1,1</code> (+0.0119), all at adequate support. The joint cells
+  sharpen this further.</p>
+  <table>
+    <caption>Table 3. Joint-cell conditional deltas. The A signature is the first row.</caption>
+    <thead><tr><th>joint cell</th><th class="num">conditional Δ</th><th class="num">support</th></tr></thead>
+    <tbody>
+      <tr><td><code>transition_k=1 &amp; pre_k_window_3=1,1,1</code></td><td class="num pos">+0.02954</td><td class="num">0.0626 (ok)</td></tr>
+      <tr><td><code>transition_k=1 &amp; local_rolling_k_window_4=1,1,1,1</code></td><td class="num pos">+0.02882</td><td class="num">0.0876 (ok)</td></tr>
+      <tr><td><code>transition_k=1 &amp; pre_k_window_5=2,1,1,1,1</code></td><td class="num pos">+0.09598</td><td class="num">0.0076 (ok, small)</td></tr>
+    </tbody>
+  </table>
+  <p>The counter-patterns — <code>transition_k=2</code>, <code>pre_k_window_3=1,1,2</code>,
+  <code>pre_k_window_3=1,1,3+</code>, <code>local_rolling_k_window_4=2,1,1,1</code> — are depleted on the
+  actual pass side, all at adequate support, and read mostly as iid-enriched pass patterns or
+  actual-stay-enriched patterns rather than support artifacts. They are essentially the complement of
+  the positive component, which we take as evidence that the concentration is structural rather than
+  noise.</p>
+  <div class="stance">
+    <span class="tag">Reading</span>
+    The conditional excess of <code>64-95 → 32-63</code> is carried by <code>START_IN_LAYER</code>
+    trajectories with <code>transition_k=1</code> and short all-1 local context, most readably
+    <code>pre_k_window_3=1,1,1</code> and <code>local_rolling_k_window_4=1,1,1,1</code>. We refer to this
+    joint configuration as the <span class="term">A signature</span>. This supports treating
+    <code>64-95 → 32-63</code> as the cleanest paradoxical transition.
+  </div>
+
+  <h3>6.3 Focus-state check</h3>
+  <p>We attended to the composite state <code>late_growth|deep_32_63|even</code>. For
+  <code>64-95 → 32-63</code> this state shows a positive conditional delta (+0.00204, ok support)
+  concentrated in <code>START_IN_LAYER</code>, consistent with the overall reading. For
+  <code>32-63 → 16-31</code> the same state shows a smaller, route-split signal. The focus state does not
+  introduce a qualitatively different structure; it is consistent with, but not sharper than, the
+  route- and pattern-level decomposition.</p>
+
+  <!-- ============ 7 ============ -->
+  <div class="chapter-mark" id="s7"><span><span class="num">07</span> &nbsp;Band Signature Map</span><span>Band signatures</span></div>
+  <h1>7. Band Signature Map</h1>
+
+  <p>We next ask whether the A signature is specific to <code>64-95 → 32-63</code> or whether the other
+  bands present the same face. For each transition and route we rank positive pass-side concentrations
+  under a fixed template.</p>
+
+  <div class="flow">
+    <div><span class="lab">64-95 → 32-63 · all-1 face</span>Leading carriers <code>transition_k=1</code>, <code>pre_k_window_3=1,1,1</code>, <code>local_rolling_k_window_3=1,1,1</code>, all at adequate support. The cleanest face.</div>
+    <div><span class="lab">32-63 → 16-31 · k=2 face</span>Leading carriers move to <code>transition_k=2</code>, <code>pre_k_window_3=1,1,2</code>, <code>pre_k_window_5=1,1,1,1,2</code>. Genuinely not the all-1 signature, and somewhat more diffuse.</div>
+    <div><span class="lab">96-127 → 64-95 · provisional</span>Visible candidates (<code>local_rolling_k_window_3=1,2,2</code>, <code>2,1,1</code>) but small total support and many low-support sub-patterns.</div>
+  </div>
+
+  <p>The cross-band reading is twofold. First, the bands do not share one identical signature; the
+  common element is the <em>type</em> of configuration — concentrated conditional excess under mass
+  deficit — rather than a single carrier. Second, the <code>64-95 → 32-63</code> all-1 face is the
+  cleanest, <code>32-63 → 16-31</code> is a distinct <code>transition_k=2</code> face, and
+  <code>96-127 → 64-95</code> is too low-support to classify with confidence. We therefore describe the
+  bands as exhibiting <em>band-specific faces of a common paradoxical configuration</em>, rather than a
+  single universal signature.</p>
+
+  <p>A measurement caution is carried in the map itself: narrow joint cells can report large conditional
+  deltas simply because they are narrow. The map distinguishes <em>readable carriers</em> (adequate
+  support, stable across the template) from <em>top joint cells</em> (largest conditional delta, possibly
+  narrow), and we read the former rather than the latter.</p>
+
+  <!-- ============ 8 ============ -->
+  <div class="chapter-mark" id="s8"><span><span class="num">08</span> &nbsp;Integer-side projection</span><span>Band signatures</span></div>
+  <h1>8. Integer-side projection</h1>
+
+  <p>We project the <code>64-95 → 32-63</code> A signature back onto integer coordinates and ask whether
+  actual integers carrying the signature are biased in integer space. This is a bias check on a
+  correspondence, not a property claim about integers. We form four occurrence-weighted groups of actual
+  integers, all within <code>START_IN_LAYER</code> at the <code>64-95</code> bin: <strong>A</strong>
+  (signature pass), <strong>B</strong> (non-signature pass), <strong>C</strong> (signature stay),
+  <strong>D</strong> (non-signature stay).</p>
+
+  <h3>8.1 Scale</h3>
+  <table>
+    <caption>Table 4. Scale by group. Signature-pass integers sit at slightly lower <code>log2(n)</code>.</caption>
+    <thead><tr><th>group</th><th class="num">mean log2(n)</th><th class="num">median log2(n)</th></tr></thead>
+    <tbody>
+      <tr><td>A — signature pass</td><td class="num">21.431</td><td class="num">21.560</td></tr>
+      <tr><td>B — non-signature pass</td><td class="num">22.325</td><td class="num">22.327</td></tr>
+      <tr><td>C — signature stay</td><td class="num">21.929</td><td class="num">21.893</td></tr>
+      <tr><td>D — non-signature stay</td><td class="num">22.211</td><td class="num">22.189</td></tr>
+    </tbody>
+  </table>
+  <p>The signature-pass group sits at slightly lower <code>log2(n)</code>: the A-vs-B mean shift is
+  −0.894 (median −0.766), and the A-vs-C mean shift is −0.498 (median −0.333). Within the same bin and
+  route, integers carrying the signature are observed at somewhat smaller scale.</p>
+
+  <h3>8.2 Residue and prefix structure</h3>
+  <p>The A group is enriched, relative to the other groups, in the maximal-residue classes: mod 8
+  residue <code>7</code> leads (≈0.382), mod 16 residue <code>15</code> (≈0.261), mod 32 residue
+  <code>31</code> (≈0.179), mod 64 residue <code>63</code> (≈0.097). Correspondingly, the leading parity
+  prefixes are all-1 (<code>1111</code>, <code>111111</code>) and the leading valuation prefix is
+  <code>1,1,1,1</code>. These are the integer-coordinate images one would expect of a
+  <code>transition_k=1</code> / all-1 sequence signature.</p>
+  <div class="stance">
+    <span class="tag">Reading</span>
+    The readable <code>64-95 → 32-63</code> sequence signature is observed to project onto a slightly
+    lower <code>log2(n)</code>, onto <code>2^k − 1</code> residues, and onto all-1 prefixes. We call this
+    the <span class="term">integer-side shadow</span>. We do not assert that the signature arises from a
+    property of the integer; small-support cells are candidates only.
+  </div>
+
+  <!-- ============ 9 ============ -->
+  <div class="chapter-mark" id="s9"><span><span class="num">09</span> &nbsp;Matched control</span><span>Band signatures</span></div>
+  <h1>9. Matched control</h1>
+
+  <p>A shadow alone does not distinguish "the sequence signature predicts pass beyond its integer image"
+  from "the sequence signature is merely the image of an integer-side coordinate." We match A against
+  control groups sharing its integer-side coordinates and ask whether the signature still separates pass
+  from stay after matching.</p>
+
+  <table>
+    <caption>Table 5. Matched control. Single coordinates do not survive; joint controls and exact valuation prefix do.</caption>
+    <thead><tr><th>matched on</th><th class="num">sig. pass</th><th class="num">non-sig. pass</th><th class="num">Δ</th><th class="num">enrichment</th><th>reading</th></tr></thead>
+    <tbody>
+      <tr><td><code>log2_floor</code></td><td class="num">0.1293</td><td class="num">0.1352</td><td class="num neg">−0.0059</td><td class="num">0.956</td><td>weak / not supported</td></tr>
+      <tr><td><code>mod16</code></td><td class="num">0.1253</td><td class="num">0.1407</td><td class="num neg">−0.0154</td><td class="num">0.890</td><td>weak / not supported</td></tr>
+      <tr><td><code>mod32</code></td><td class="num">0.1266</td><td class="num">0.1405</td><td class="num neg">−0.0139</td><td class="num">0.901</td><td>weak / not supported</td></tr>
+      <tr><td><code>mod64</code></td><td class="num">0.1293</td><td class="num">0.1409</td><td class="num neg">−0.0116</td><td class="num">0.918</td><td>weak / not supported</td></tr>
+      <tr><td><code>parity_prefix_4</code></td><td class="num">0.1253</td><td class="num">0.1407</td><td class="num neg">−0.0154</td><td class="num">0.890</td><td>weak / not supported</td></tr>
+      <tr><td><code>parity_prefix_6</code></td><td class="num">0.1293</td><td class="num">0.1409</td><td class="num neg">−0.0116</td><td class="num">0.918</td><td>weak / not supported</td></tr>
+      <tr><td><code>valuation_prefix_1111_indicator</code></td><td class="num">0.1226</td><td class="num">0.1389</td><td class="num neg">−0.0163</td><td class="num">0.883</td><td>weak / not supported</td></tr>
+      <tr><td><code>valuation_prefix_4_exact</code></td><td class="num">0.1447</td><td class="num">0.1361</td><td class="num pos">+0.0086</td><td class="num">1.063</td><td>survives</td></tr>
+      <tr><td><code>log2_floor + mod32 + parity4</code></td><td class="num">0.1499</td><td class="num">0.1373</td><td class="num pos">+0.0125</td><td class="num">1.091</td><td>survives</td></tr>
+      <tr><td><code>log2_floor + mod32 + parity6</code></td><td class="num">0.1705</td><td class="num">0.1361</td><td class="num pos">+0.0344</td><td class="num">1.253</td><td>survives</td></tr>
+      <tr><td><code>log2_floor + mod64 + parity4</code></td><td class="num">0.1705</td><td class="num">0.1361</td><td class="num pos">+0.0344</td><td class="num">1.253</td><td>survives</td></tr>
+      <tr><td><code>log2_floor + mod64 + parity6</code></td><td class="num">0.1705</td><td class="num">0.1361</td><td class="num pos">+0.0344</td><td class="num">1.253</td><td>survives</td></tr>
+    </tbody>
+  </table>
+
+  <p>The reading is a qualified yes. No single integer-side coordinate — <code>log2(n)</code>, any single
+  residue modulus, or any single parity prefix — accounts for the signature; matched on any one of these,
+  the matched delta is negative. The signature <em>does</em> survive exact matching on the full length-4
+  valuation prefix, and it survives the supported combined controls that hold <code>log2(n)</code>, a
+  residue modulus, and a parity prefix simultaneously. We conclude that, in this sampled matched
+  comparison, the integer-side shadow does not fully explain the A signature, but the surviving signal is
+  joint-coordinate dependent rather than a one-dimensional residue or scale effect. We make no claim
+  beyond predictiveness after the listed controls.</p>
+
+  <!-- ============ 10 ============ -->
+  <div class="chapter-mark" id="s10"><span><span class="num">10</span> &nbsp;Discussion</span><span>Band signatures</span></div>
+  <h1>10. Discussion</h1>
+
+  <p>The measurements assemble into a single descriptive chain. A difference between observed
+  trajectories and a structureless surrogate, previously localized to a <code>remaining_K</code> chain,
+  takes the form of a sign reversal: mass deficit with conditional excess. The excess is not diffuse; it
+  is concentrated in a small number of sequence-level signatures. The clearest carrier, at
+  <code>64-95 → 32-63</code>, is a compact joint signature — <code>START_IN_LAYER</code>,
+  <code>transition_k=1</code>, all-1 local context — which we have called the A signature. Across bands the
+  configuration is shared but the signature is not: each band has its own face. Projected onto integer
+  coordinates, the A signature leaves a weak but reproducible shadow, and that shadow is multivariate: it
+  resists explanation by any single integer-side coordinate yet persists under joint control.</p>
+
+  <div class="stance warn">
+    <span class="tag">What these statements are not</span>
+    They are not a mechanism. We do not claim that <code>remaining_K</code> causes the discrepancy, that an
+    integer property generates the signature, or that any latent structure underlies the correspondence.
+    The chain is a localization-and-correspondence result: it identifies <em>where</em> the reverse-sign
+    phenomenon lives at the sequence level and <em>how</em> it projects onto integers, under stated
+    controls and within a sampled universe.
+  </div>
+
+  <p>The external benchmark (Appendix A) is consistent with the A signature marking a broad corridor
+  rather than an isolated cell: a substantial fraction of an independently defined set of paradoxical
+  starting integers maps onto it, and the non-mapping integers are mostly one condition away from it. We
+  read this as the A signature occupying a <em>canonical face</em> of the corridor — a representative, not a
+  unique, carrier — and we do not infer sameness of phenomenon from overlap.</p>
+
+  <!-- ============ 11 ============ -->
+  <div class="chapter-mark" id="s11"><span><span class="num">11</span> &nbsp;Limitations</span><span>Band signatures</span></div>
+  <h1>11. Limitations</h1>
+  <ul>
+    <li>The analysis universe is a sampled long-word, final-state-conditioned ensemble, not an exhaustive enumeration. All shares and supports are ensemble quantities.</li>
+    <li>Low support is flagged throughout at the weighted threshold <code>0.002</code>; low-support cells are candidates, not claims. In particular the <code>96-127 → 64-95</code> band is provisional.</li>
+    <li>Rolling windows are local to the transition neighborhood and do not represent full-word window frequencies.</li>
+    <li>The matched-control survival is joint-coordinate dependent; matching removes only the listed integer-side coordinates, not all possible integer structure.</li>
+    <li>The surrogate ("iid word") ensemble removes sequential structure while preserving the tilted valuation marginal of the pipeline; its construction and weighting are given in §4.9 and are pipeline choices.</li>
+    <li>The word <em>paradoxical</em> is used only as an observational label for the mass-deficit / conditional-excess configuration and is not the Rozier–Terracol notion.</li>
+    <li>No causal, generative, or mechanistic claim is made anywhere in this paper.</li>
+  </ul>
+
+  <!-- ============ 12 ============ -->
+  <div class="chapter-mark" id="s12"><span><span class="num">12</span> &nbsp;Conclusion</span><span>Band signatures</span></div>
+  <h1>12. Conclusion</h1>
+  <p>We have reported, in observational terms, that observed accelerated Collatz trajectories and a
+  structureless surrogate differ on a <code>remaining_K</code> chain in a sign-reversing way — mass
+  deficit together with conditional excess — and that the conditional excess is concentrated in a small
+  number of band-specific sequence signatures. The cleanest carrier is the <code>64-95 → 32-63</code> A
+  signature. The signature leaves a weak, multivariate, reproducible integer-side shadow that no single
+  integer coordinate explains. An external benchmark overlaps substantially with the signature without
+  being identical to it. The result is a map of where the reverse-sign phenomenon is carried and how it
+  corresponds to integer coordinates; it is not an explanation, and is offered as a measurement.</p>
+
+  <hr class="sec">
+
+  <!-- ============ A ============ -->
+  <div class="chapter-mark" id="sa"><span><span class="num">A</span> &nbsp;Appendix</span><span>External benchmark</span></div>
+  <h1>Appendix A. Rozier–Terracol external benchmark overlay</h1>
+
+  <h3>A.1 Purpose and benchmark set</h3>
+  <p>We overlay the Rozier–Terracol Appendix C acyclic paradoxical starting integers (arXiv:2502.00948)
+  on the <code>remaining_K</code> coordinate system and the <code>64-95 → 32-63</code> signature, as an
+  external benchmark only. Extraction reproduces <code>593</code> Appendix C occurrences and
+  <code>550</code> distinct starting integers, of which <code>40</code> appear in multiple
+  <code>(j,q)</code> groups; the odd/even split is <code>294 / 256</code>.</p>
+
+  <h3>A.2 Overlap with the A signature</h3>
+  <table>
+    <caption>Table A1. Overlap of Rozier–Terracol integers with the signature (odd-core mapping).</caption>
+    <thead><tr><th>event</th><th class="num">hits</th><th class="num">rate</th></tr></thead>
+    <tbody>
+      <tr><td>reaches <code>64-95 → 32-63</code></td><td class="num">536/550</td><td class="num">0.975</td></tr>
+      <tr><td><code>START_IN_LAYER</code> at <code>64-95</code></td><td class="num">443/550</td><td class="num">0.805</td></tr>
+      <tr><td><code>transition_k=1</code></td><td class="num">516/550</td><td class="num">0.938</td></tr>
+      <tr><td><code>pre_k_window_3=1,1,1</code></td><td class="num">468/550</td><td class="num">0.851</td></tr>
+      <tr><td>full A signature</td><td class="num">377/550</td><td class="num">0.685</td></tr>
+      <tr><td><code>32-63 → 16-31</code> signature</td><td class="num">0/550</td><td class="num">0.000</td></tr>
+      <tr><td>any band signature</td><td class="num">470/550</td><td class="num">0.855</td></tr>
+    </tbody>
+  </table>
+  <p>The benchmark overlaps strongly with the A carrier and does not align at all with the checked
+  <code>32-63 → 16-31</code> face.</p>
+
+  <h3>A.3 Robustness recheck</h3>
+  <p>Because the overlap is strong, we audited extraction, mapping mode, event strictness, counting mode,
+  baselines, and negative controls.</p>
+  <table>
+    <caption>Table A2. Full-A overlap by mapping mode. The overlap does not depend on the odd-core choice.</caption>
+    <thead><tr><th>mapping mode</th><th class="num">full A hits</th><th class="num">rate</th></tr></thead>
+    <tbody>
+      <tr><td><code>odd_core</code></td><td class="num">377/550</td><td class="num">0.685</td></tr>
+      <tr><td><code>original_n_strict</code></td><td class="num">365/550</td><td class="num">0.664</td></tr>
+      <tr><td><code>odd_only</code></td><td class="num">177/294</td><td class="num">0.602</td></tr>
+    </tbody>
+  </table>
+  <p><strong>First-occurrence vs. trajectory.</strong> Under the first-<code>64-95</code>-occurrence-only
+  definition, the A overlap is <code>0</code>. The overlap is a trajectory-level event: a substantial
+  subset of benchmark integers encounters a strict A signature <em>somewhere along</em> the trajectory,
+  not at first entry into the <code>64-95</code> bin. This is consistent with the §4.5 definition, under
+  which <code>START_IN_LAYER</code> marks where the word begins, not the first entry event.</p>
+  <p><strong>Same-occurrence validity.</strong> A separate audit confirms that <code>transition_k=1</code>
+  and <code>pre_k_window_3=1,1,1</code> are satisfied within the <em>same</em> occurrence (validity
+  <code>1.0</code> in all modes; one strict A occurrence per integer), ruling out a cross-occurrence
+  pooling artifact.</p>
+  <p><strong>Negative controls.</strong> Full A overlap for control sets is markedly lower: random
+  same-size range <code>0.205</code>, consecutive from minimum <code>0.204</code>, odd random
+  <code>0.175</code>, and shifted sets (<code>n±1</code>, <code>2n+1</code>) <code>0.33–0.35</code>. The
+  benchmark overlap substantially exceeds these.</p>
+  <div class="stance">
+    <span class="tag">Verdict</span>
+    <em>Partially robust.</em> The strict A overlap persists across mapping modes and clearly exceeds
+    negative controls, but it is a trajectory-level rather than first-occurrence event. We present it as an
+    appendix benchmark, not a main-text pillar.
+  </div>
+
+  <h3>A.4 Classification of non-overlapping integers</h3>
+  <p>The integers that do not hit the full A signature are not a random remainder. For the original-n
+  strict mode the <code>185</code> non-hits classify as follows; <code>164</code> are <em>near-A</em>
+  (three of four A conditions), the most common missing condition being <code>START_IN_LAYER</code>. The
+  odd-core mode gives the same picture (<code>154/173</code> near-A).</p>
+  <table>
+    <caption>Table A3. Non-hit classification (original-n strict mode, 185 integers).</caption>
+    <thead><tr><th>class</th><th class="num">count</th></tr></thead>
+    <tbody>
+      <tr><td>reaches <code>64-95 → 32-63</code> but not <code>START_IN_LAYER</code></td><td class="num">107</td></tr>
+      <tr><td><code>START_IN_LAYER</code> and <code>k=1</code> but <code>pre_k_window_3 ≠ 1,1,1</code></td><td class="num">46</td></tr>
+      <tr><td><code>START_IN_LAYER</code> but <code>transition_k ≠ 1</code></td><td class="num">20</td></tr>
+      <tr><td>never reaches <code>64-95 → 32-63</code></td><td class="num">12</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.5 Reading and limits</h3>
+  <p>We read the benchmark overlay as consistent with the A signature occupying a canonical face of a
+  broad corridor through which many of the benchmark integers pass. We do not claim that the
+  Rozier–Terracol paradoxical sequences and the configuration studied here are the same phenomenon; the
+  two notions are defined differently. Odd-core dependence is reported explicitly. Baselines lacking
+  actual support (notably the <code>log2</code>-matched baselines, since the benchmark integers are much
+  smaller than the sampled actual universe) are not used as claims. This is an external benchmark overlay
+  only.</p>
+
+  <hr class="sec">
+
+  <!-- ============ F ============ -->
+  <div class="chapter-mark" id="sf"><span><span class="num">F</span> &nbsp;Editorial</span><span>Figures &amp; tables</span></div>
+  <h1>Suggested figures and tables</h1>
+  <p class="small">Editorial only; drawn entirely from existing outputs. None requires additional computation.</p>
+  <ol>
+    <li><strong>Figure 1 — the reverse-sign chain.</strong> Twin bars per transition: mass Δ (negative) beside conditional Δ (positive) for §5, support encoded by bar width or opacity.</li>
+    <li><strong>Figure 2 — entry-route decomposition.</strong> <code>START_IN_LAYER</code> vs. <code>INFLOW_FROM_96-127</code>, conditional Δ and pass-share side by side (§6.1).</li>
+    <li><strong>Figure 3 — A-signature concentration.</strong> Pass-share delta by pattern within <code>START_IN_LAYER</code>, sorted, with the all-1 carriers and their counter-pattern complements (§6.2).</li>
+    <li><strong>Figure 4 — Band Signature Map.</strong> Small multiples, one tile per band, with the <code>96-127 → 64-95</code> tile marked provisional (§7).</li>
+    <li><strong>Figure 5 — integer-side shadow.</strong> Overlaid <code>log2(n)</code> distributions for A/B/C/D, plus a residue-enrichment strip for mod 8/16/32/64 (§8).</li>
+    <li><strong>Figure 6 — matched-control ladder.</strong> Enrichment ratio per control with the 1.0 line marked, separating single-coordinate (below 1) from joint controls (above 1) (§9).</li>
+    <li><strong>Figure 7 (Appendix) — Rozier overlap tree.</strong> The 550 → A-hit / non-hit split with the four non-hit classes, annotated with near-A count (A.4).</li>
+    <li><strong>Tables 1–5, A1–A3.</strong> As printed above.</li>
+  </ol>
+
+  <nav class="footer-nav" aria-label="Footer">
+    <a href="../index.html">Home</a>
+    <a href="index.html">Paper 1 (Δ-localization)</a>
+    <a href="#abstract">Top</a>
+    <a href="https://arxiv.org/abs/2502.00948">Rozier–Terracol</a>
+    <a href="https://github.com/Riku-Tono/collatz-block-diagnostics">GitHub</a>
+  </nav>
+
+</main>
+</body>
+</html>
