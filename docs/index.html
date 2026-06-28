@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First-Pass Faces at the 64-95 → 32-63 Boundary — Paradoxical-Sequence Chapter</title>
+<style>
+  :root{
+    --paper:#FAFAF7;
+    --paper-raised:#F2F0E9;
+    --ink:#1C1E1B;
+    --ink-soft:#4A4D47;
+    --rule:#D8D4C6;
+    --rule-strong:#2B2E2A;
+    --amber:#B4690E;
+    --amber-soft:#F4E4D2;
+    --teal:#2E6E62;
+    --teal-soft:#E1EEEA;
+    --rust:#A84B2A;
+    --rust-soft:#F3E1D8;
+    --mono-bg:#EFEDE3;
+    --maxw:880px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:"Newsreader","Iowan Old Style",Georgia,serif;
+    font-weight:600;
+    color:var(--rule-strong);
+    line-height:1.2;
+    letter-spacing:-0.01em;
+  }
+  code, .mono{
+    font-family:"JetBrains Mono","SF Mono",Consolas,monospace;
+    font-size:0.88em;
+    background:var(--mono-bg);
+    padding:0.1em 0.35em;
+    border-radius:3px;
+    white-space:nowrap;
+  }
+  pre code{
+    display:block;
+    white-space:pre;
+    padding:1em 1.2em;
+    overflow-x:auto;
+    border-radius:6px;
+    line-height:1.5;
+  }
+  a{color:var(--teal); text-decoration:none; border-bottom:1px solid var(--teal-soft);}
+  a:hover{border-bottom-color:var(--teal);}
+
+  /* ---------- masthead ---------- */
+  .masthead{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:64px 28px 36px;
+  }
+  .status-tag{
+    display:inline-block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--amber);
+    background:var(--amber-soft);
+    border:1px solid #E3C49C;
+    padding:5px 10px;
+    border-radius:4px;
+    margin-bottom:22px;
+  }
+  .masthead h1{
+    font-size:clamp(26px,3.6vw,38px);
+    margin:0 0 14px;
+  }
+  .masthead h1 code{white-space:normal;}
+  .masthead .sub{
+    color:var(--ink-soft);
+    font-size:16px;
+    max-width:640px;
+  }
+  .authority-note{
+    margin-top:26px;
+    padding:14px 18px;
+    background:var(--paper-raised);
+    border-left:3px solid var(--rule-strong);
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .authority-note strong{color:var(--ink);}
+  .meta-row{
+    display:flex;
+    gap:22px;
+    flex-wrap:wrap;
+    margin-top:22px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  .meta-row span b{color:var(--ink);}
+
+  /* ---------- nav / TOC ---------- */
+  nav.toc{
+    max-width:var(--maxw);
+    margin:0 auto 8px;
+    padding:0 28px;
+  }
+  nav.toc details{
+    background:var(--paper-raised);
+    border:1px solid var(--rule);
+    border-radius:8px;
+    padding:14px 18px;
+  }
+  nav.toc summary{
+    cursor:pointer;
+    font-family:"JetBrains Mono",monospace;
+    font-size:13px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  nav.toc ol{
+    margin:14px 0 4px;
+    padding-left:20px;
+    font-size:15px;
+    columns:2;
+    column-gap:28px;
+  }
+  nav.toc li{margin-bottom:8px;}
+  nav.toc ol ol{columns:1; margin-top:4px; font-size:13.5px;}
+
+  /* ---------- sections ---------- */
+  main{max-width:var(--maxw); margin:0 auto; padding:0 28px 100px;}
+  section{margin-top:56px;}
+  section > h2{
+    font-size:26px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--rule-strong);
+    margin-bottom:22px;
+    scroll-margin-top:24px;
+  }
+  section > h2 .eyebrow{
+    display:block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:6px;
+  }
+  h3{font-size:19px; margin-top:34px; scroll-margin-top:24px;}
+  h3 .rtag{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    color:var(--teal);
+    background:var(--teal-soft);
+    padding:2px 8px;
+    border-radius:4px;
+    margin-right:10px;
+    vertical-align:middle;
+  }
+  p{margin:14px 0;}
+  ul,ol{padding-left:24px;}
+  li{margin-bottom:6px;}
+
+  /* ---------- callouts ---------- */
+  blockquote{
+    margin:20px 0;
+    padding:14px 18px;
+    background:var(--paper-raised);
+    border-left:3px solid var(--rule);
+    font-size:15.5px;
+    color:var(--ink-soft);
+  }
+  .required{
+    margin:22px 0;
+    padding:18px 20px;
+    background:var(--amber-soft);
+    border-left:4px solid var(--amber);
+    border-radius:4px;
+  }
+  .required .label{
+    display:block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--amber);
+    margin-bottom:6px;
+  }
+  .required p{margin:0; font-size:16.5px; font-style:italic; color:var(--rule-strong);}
+
+  .definition-note{
+    margin:18px 0;
+    padding:16px 20px;
+    background:#FBF0E4;
+    border:1px solid #E8CDA8;
+    border-radius:6px;
+    font-size:15px;
+  }
+  .definition-note .label{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11.5px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--amber);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .scope-note{
+    margin:18px 0;
+    padding:14px 18px;
+    background:#EEF3F1;
+    border:1px solid #C9DBD5;
+    border-radius:6px;
+    font-size:15px;
+    color:var(--ink-soft);
+  }
+  .scope-note .label{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--teal);
+    display:block;
+    margin-bottom:6px;
+  }
+
+  .donot{
+    margin:18px 0 8px;
+    padding:12px 16px;
+    border:1px dashed #C7593A;
+    border-radius:6px;
+    background:#FBEFEA;
+    font-size:14px;
+    color:#7A3320;
+  }
+  .donot .label{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:#C7593A;
+    display:block;
+    margin-bottom:4px;
+  }
+
+  /* ---------- tables ---------- */
+  .table-wrap{overflow-x:auto; margin:18px 0;}
+  table{
+    border-collapse:collapse;
+    width:100%;
+    font-size:14.5px;
+  }
+  caption{
+    text-align:left;
+    font-family:"Newsreader",serif;
+    font-weight:600;
+    font-size:16px;
+    margin-bottom:8px;
+    color:var(--rule-strong);
+    caption-side:top;
+  }
+  caption .src{
+    display:block;
+    font-family:"JetBrains Mono",monospace;
+    font-weight:400;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:3px;
+    white-space:normal;
+    max-width:100%;
+  }
+  th,td{
+    border:1px solid var(--rule);
+    padding:8px 10px;
+    text-align:left;
+    vertical-align:top;
+  }
+  thead th{
+    background:var(--rule-strong);
+    color:var(--paper);
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.02em;
+  }
+  tbody tr:nth-child(even){background:var(--paper-raised);}
+  td.num, th.num{text-align:right; font-family:"JetBrains Mono",monospace;}
+
+  /* highlight the intersection row across tables */
+  tr.hl td{background:var(--amber-soft) !important; font-weight:600;}
+
+  /* distinct color coding for the four pre111 quantities */
+  .q-passface{color:var(--teal); font-weight:700;}
+  .q-maintenance{color:var(--rust); font-weight:700;}
+  .q-1111{color:#6B4FA0; font-weight:700;}
+  .q-everappears{color:#5B6B23; font-weight:700;}
+
+  .legend-quantities{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:10px;
+    margin:18px 0 24px;
+  }
+  .legend-quantities .item{
+    border:1px solid var(--rule);
+    border-radius:6px;
+    padding:10px 12px;
+    font-size:13.5px;
+    background:var(--paper-raised);
+  }
+  .legend-quantities .item .tag{
+    display:inline-block;
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    font-weight:700;
+    padding:1px 6px;
+    border-radius:3px;
+    margin-bottom:6px;
+  }
+  .tag-passface{background:var(--teal-soft); color:var(--teal);}
+  .tag-maintenance{background:#F3E1D8; color:var(--rust);}
+  .tag-1111{background:#EBE3F5; color:#6B4FA0;}
+  .tag-everappears{background:#E9EDD9; color:#5B6B23;}
+
+  /* ---------- figure placeholders ---------- */
+  figure.placeholder{
+    margin:22px 0;
+    border:1.5px dashed var(--rule);
+    border-radius:8px;
+    padding:22px;
+    background:var(--paper-raised);
+  }
+  figure.placeholder .fig-number{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  figure.placeholder h4{margin:4px 0 10px; font-size:17px;}
+  figure.placeholder .src-line{
+    font-family:"JetBrains Mono",monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  figcaption{
+    margin-top:10px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+  }
+  figcaption .cap-tag{
+    display:inline-block;
+    margin-top:6px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    background:var(--mono-bg);
+    padding:3px 8px;
+    border-radius:4px;
+  }
+  .edit-note{
+    margin-top:10px;
+    padding:10px 12px;
+    background:#FBF0E4;
+    border:1px solid #E8CDA8;
+    border-radius:5px;
+    font-size:13px;
+  }
+
+  /* mini bar-chart widget for Figure 6 */
+  .figure6{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+    margin:18px 0;
+  }
+  @media (max-width:600px){.figure6{grid-template-columns:1fr;}}
+  .barpanel h5{
+    margin:0 0 10px;
+    font-family:"JetBrains Mono",monospace;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+  .barrow{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .barrow .lbl{width:84px; font-family:"JetBrains Mono",monospace; font-size:12.5px; flex-shrink:0;}
+  .barrow .track{flex:1; background:#E7E4D8; border-radius:3px; height:20px; position:relative; overflow:hidden;}
+  .barrow .fill{height:100%; border-radius:3px; display:flex; align-items:center; justify-content:flex-end; padding-right:6px;}
+  .barrow .fill span{font-family:"JetBrains Mono",monospace; font-size:11px; color:#fff; font-weight:600;}
+  .fill.passface{background:var(--teal);}
+  .fill.maintenance{background:var(--rust);}
+  .na-pill{
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    background:repeating-linear-gradient(45deg, #E7E4D8, #E7E4D8 6px, #DCD8C8 6px, #DCD8C8 12px);
+    border:1px solid var(--rule);
+    border-radius:3px;
+    padding:2px 8px;
+  }
+
+  /* ---------- terminology table emphasis ---------- */
+  #terminology-table table td:first-child{font-weight:600;}
+
+  /* ---------- footer / evidence ---------- */
+  .evidence-grid{display:grid; gap:18px;}
+  .open-items ol > li{margin-bottom:14px;}
+  footer{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:30px 28px 70px;
+    font-size:13px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--rule);
+  }
+
+  /* back to top */
+  .totop{
+    position:fixed;
+    bottom:22px;
+    right:22px;
+    background:var(--rule-strong);
+    color:var(--paper);
+    font-family:"JetBrains Mono",monospace;
+    font-size:11px;
+    padding:8px 12px;
+    border-radius:20px;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s;
+    text-decoration:none;
+    border:none;
+  }
+  .totop.show{opacity:0.88; pointer-events:auto;}
+  .totop:hover{opacity:1;}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .totop{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<a href="#top" class="totop" id="totop">↑ top</a>
+<div id="top"></div>
+
+<header class="masthead">
+  <span class="status-tag">Draft for review · Observational / descriptive report</span>
+  <h1>First-Pass Faces at the <code>64-95 → 32-63</code> Boundary</h1>
+  <p class="sub">Paradoxical-sequence chapter. A finite, descriptive scan of first-pass events across
+  <code>remaining_K</code> boundaries in accelerated Collatz trajectories — not a proof of, or about,
+  the Collatz conjecture.</p>
+
+  <div class="authority-note">
+    <strong>README.md is the authoritative source.</strong> This page is a reader-facing rendering of
+    that file: same claims, same numbers, same terminology, laid out with figures and tables for easier
+    reading. If the two ever disagree, the README wins.
+  </div>
+
+  <div class="meta-row">
+    <span>Scanner mode: <b>original_n_strict</b></span>
+    <span>Universe: <b>550</b> trajectories</span>
+    <span>Status: <b>draft</b></span>
+  </div>
+</header>
+
+<nav class="toc">
+  <details open>
+    <summary>Contents</summary>
+    <ol>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#stance">Stance</a></li>
+      <li><a href="#definitions">Definitions</a></li>
+      <li><a href="#results">Results</a>
+        <ol>
+          <li><a href="#r1">R1. Observed band ladder</a></li>
+          <li><a href="#r2">R2. The 64-95 → 32-63 first-pass face and its classes</a></li>
+          <li><a href="#r3">R3. Boundary differential comparison</a></li>
+          <li><a href="#r4">R4. Boundary intersection map</a></li>
+          <li><a href="#r5">R5. All-1 formation, pass-face all-1, and continuous maintenance</a></li>
+        </ol>
+      </li>
+      <li><a href="#terminology-table">Terminology table</a></li>
+      <li><a href="#limitations">Limitations</a></li>
+      <li><a href="#relation">Relation to other chapters</a></li>
+      <li><a href="#evidence">Evidence files</a></li>
+      <li><a href="#open-items">Open items before this is final</a></li>
+    </ol>
+  </details>
+</nav>
+
+<main>
+
+  <section id="abstract">
+    <h2><span class="eyebrow">00 — Summary</span>Abstract</h2>
+    <p>We report a finite, descriptive scan of first-pass events across dyadic <code>remaining_K</code>
+    boundaries in accelerated Collatz trajectories, under the <code>original_n_strict</code> scanner
+    over a 550-trajectory universe. The analysis is observational: it maps <em>where</em> descriptors
+    co-locate, not <em>why</em> they do. Boundaries organize into an observed band ladder running from
+    a diffuse upstream feeder (<code>96-127 → 64-95</code>) through a single intersection row
+    (<code>64-95 → 32-63</code>) into merged downstream faces and a terminal drop. The intersection row
+    is distinctive not because it shows the largest neighbor distance — its summed descriptive distance
+    is in fact below the downstream-neighbor average — but because several observable axes co-locate
+    there: an entry-route split, a local all-1 pass-face context, and concentrated class separation
+    among <code>A_start</code>, <code>A_inflow</code>, <code>Other_start</code>, and
+    <code>Other_inflow</code>. We separate two conditions that earlier drafts conflated:
+    <strong class="q-passface">pass-face all-1</strong>, which holds by definition for the A classes,
+    and <strong class="q-maintenance">continuous pre111 maintenance</strong>, which is strictly lower
+    (0.729 and 0.548). Downstream boundaries reconverge into compact common faces. We claim no
+    mechanism, no causal role, and no proof about the Collatz conjecture.</p>
+    <p style="font-size:13.5px;color:var(--ink-soft);"><em>(171 words)</em></p>
+  </section>
+
+  <section id="stance">
+    <h2><span class="eyebrow">01 — Reading guide</span>Stance</h2>
+    <p>This paper reports a finite, descriptive scan of <strong>first-pass events</strong> across
+    <code>remaining_K</code> boundaries in accelerated Collatz trajectories. The question we ask
+    throughout is <em>where</em> observable descriptors co-locate, not <em>why</em> they do. We make
+    no claim about mechanism, cause, or proof.</p>
+    <p>The headline observation, developed in <a href="#results">Results</a>: the
+    <code>64-95 → 32-63</code> boundary is where an entry-route split, a local all-1 pass-face context,
+    and class separation among four first-pass classes (<code>A_start</code>, <code>A_inflow</code>,
+    <code>Other_start</code>, <code>Other_inflow</code>) co-locate. Boundaries downstream of it mostly
+    reconverge into a small number of compact faces.</p>
+    <p>We restrict ourselves to observational language throughout: <em>we observe</em>, <em>we
+    find</em>, <em>is concentrated in</em>, <em>is carried by</em>, <em>co-locates with</em>, <em>is
+    consistent with</em>. We do not use <em>because</em>, <em>mechanism</em>, <em>causes</em>,
+    <em>forces</em>, or <em>proof</em> <strong>as affirmative explanatory claims</strong> — that is, we
+    never assert that a boundary or face <em>is</em> a mechanism, <em>causes</em> a downstream outcome,
+    or <em>proves</em> something about Collatz.</p>
+    <blockquote>We do use these terms in their negated form, e.g. "not a mechanism," "no causal role,"
+    as limitation statements; that usage is explicitly permitted and recurs throughout this paper.</blockquote>
+    <p>We do not claim that any boundary "sorts" trajectories as an action it performs. We use
+    <strong>"intersection row"</strong> as the reader-facing label for the observed pattern at
+    <code>64-95 → 32-63</code> throughout this paper; "sorting face" / "sorting row" survive only as
+    legacy or internal-analysis labels (e.g. the table column <code>B_sort</code>) and are not used as
+    the paper's own descriptive claim.</p>
+    <p>Low-support cells are flagged and treated as candidate structure, not as load-bearing claims.</p>
+  </section>
+
+  <section id="definitions">
+    <h2><span class="eyebrow">02 — Before any result</span>Definitions</h2>
+    <p>All quantities below are defined operationally and are specific to the
+    <code>original_n_strict</code> scanner mode over the 550-trajectory universe. Definitions are
+    stated here, in full, before any result is reported.</p>
+
+    <p><strong>D1. Coordinate.</strong> For an odd integer trajectory under the accelerated Collatz
+    map,</p>
+    <pre><code>x_{t+1} = (3 x_t + 1) / 2^{k_t},      k_t = v_2(3 x_t + 1),</code></pre>
+    <p>with valuation word <code>w = (k_0, k_1, ..., k_{τ-1})</code> and total valuation mass
+    <code>K_τ = Σ_{t=0}^{τ-1} k_t</code>. The reported coordinate is the remaining mass before step
+    <code>t</code>,</p>
+    <pre><code>R_t = K_τ - Σ_{i&lt;t} k_i .</code></pre>
+
+    <p><strong>D2. <code>remaining_K</code> bins.</strong> Half-open dyadic intervals. A transition
+    <code>A → B</code> occurs at position <code>t</code> when <code>R_t ∈ A</code> and
+    <code>R_{t+1} ∈ B</code>. The bins used in this paper, narrowest to widest in the active range:
+    <code>0-1</code>, <code>4-7</code>, <code>8-15</code>, <code>16-31</code>, <code>32-63</code>,
+    <code>64-95</code>, <code>96-127</code>.</p>
+
+    <p><strong>D3. <code>pass</code> vs. <code>stay</code>.</strong> For a target transition from bin
+    <code>A</code> to bin <code>B</code>, an occurrence starting in <code>A</code> is a
+    <strong>pass</strong> if its post-step bin is <code>B</code>, and a <strong>stay</strong> if its
+    post-step bin is still <code>A</code>.</p>
+
+    <p><strong>D4. <code>transition_k</code> and <code>pre_k_window_3</code>.</strong>
+    <code>transition_k</code> is the valuation step <code>k_t</code> at the transition occurrence;
+    exact tests use <code>transition_k = 1</code> to mean <code>k_t = 1</code> exactly.
+    <code>pre_k_window_3 = (k_{t-2}, k_{t-1}, k_t)</code>. We write <strong><code>pre111</code></strong>
+    for <code>pre_k_window_3 = 1,1,1</code>.</p>
+
+    <p><strong>D5. <code>entry_route</code> and <code>START_IN_LAYER</code> (strict).</strong> For a
+    given <code>remaining_K</code> bin, let <code>s</code> be the first position whose pre-step
+    <code>remaining_K</code> value lies in that bin. An occurrence at position <code>t</code> in that
+    bin has entry route <strong><code>START_IN_LAYER</code></strong> if <code>s = 0</code> — that is,
+    <strong>the valuation word begins inside that <code>remaining_K</code> layer</strong> — and
+    otherwise <code>INFLOW_FROM_&lt;previous bin&gt;</code>.</p>
+
+    <div class="definition-note">
+      <span class="label">Definition note — must not be weakened</span>
+      <code>START_IN_LAYER</code> means the word <em>begins</em> in the layer. It does <strong>not</strong>
+      mean "first observed visit to the layer," "first occurrence in the layer," or "first entry into
+      the layer." A plain-language gloss, where needed, is: <em>"the word begins in the
+      <code>64-95</code> layer."</em> The alternative entry route used throughout this paper is
+      <code>INFLOW_FROM_96-127</code>.
+    </div>
+
+    <p><strong>D6. <code>first pass</code>.</strong> The first occurrence of a
+    <code>64-95 → 32-63</code> pass event for a given trajectory. <strong><code>first pass</code> is
+    not the same as <code>first entry</code></strong> into the <code>64-95</code> layer; see
+    <a href="#r2">R2</a> for the empirical relationship between the two.</p>
+
+    <p><strong>D7. <code>compact face</code> vs. <code>full face</code>.</strong> A <em>full face</em>
+    is the full joint descriptor (<code>entry_route</code>, <code>transition_k</code>,
+    <code>pre_k_window_3</code>, …) observed at an occurrence. A <em>compact face</em> is a coarser,
+    capped summary used for tabulation (values above 2 reported as <code>3+</code>).</p>
+
+    <h3 style="margin-top:42px;">The four pre111-related quantities</h3>
+    <p>These four definitions are easy to conflate and are kept strictly separate throughout this
+    paper. Each gets its own color below; the same colors are used again in Table 6 and Figure 6.</p>
+
+    <div class="legend-quantities">
+      <div class="item">
+        <span class="tag tag-passface">D8</span>
+        <strong class="q-passface">pass-face all-1</strong> (= "all-1 at pass")<br>
+        Evaluated <strong>at the pass only</strong>. Is <code>transition_k=1</code> and
+        <code>pre3=1,1,1</code> true at the pass event?
+      </div>
+      <div class="item">
+        <span class="tag tag-maintenance">D9</span>
+        <strong class="q-maintenance">continuous pre111 maintenance</strong><br>
+        Evaluated at <strong>every event</strong> from first <code>pre111</code> to the pass. Does
+        <code>pre111</code> hold continuously once it starts?
+      </div>
+      <div class="item">
+        <span class="tag tag-1111">D10</span>
+        <strong class="q-1111">1111 present at pass</strong> (= "pass-event 1111")<br>
+        Evaluated <strong>at the pass only</strong>. Is the length-4 run <code>1111</code> true at the
+        pass event?
+      </div>
+      <div class="item">
+        <span class="tag tag-everappears">D11</span>
+        <strong class="q-everappears">pre111 ever appears before pass</strong><br>
+        Evaluated <strong>anywhere</strong> in the entry-to-pass window. Was <code>pre111</code> ever
+        reached at all? (Source field: <code>share_first_pre111_present</code>.)
+      </div>
+    </div>
+
+    <div class="required">
+      <span class="label">Terminology lock — the central definitional decision of this paper</span>
+      <p>We never use the word <em>maintenance</em> for D8, D10, or D11. We reserve <em>maintenance</em>
+      exclusively for D9. Conflating these — in particular, reporting the by-definition <code>1.000</code>
+      share of D8 as if it were the continuous share of D9, or reading D11's formation-only share as if
+      it were presence <em>at</em> the pass — is the single terminology error this paper is written to
+      avoid; see <a href="#r5">R5</a>.</p>
+    </div>
+  </section>
+
+  <section id="results">
+    <h2><span class="eyebrow">03 — Findings</span>Results</h2>
+
+    <section id="r1">
+      <h3><span class="rtag">R1</span>Observed band ladder</h3>
+      <p>Across the sampled universe, first-pass coverage organizes into an observed band ladder
+      running from upstream to the terminal bins:</p>
+      <pre><code>96-127 → 64-95 → 32-63 → 16-31 → 8-15 → 4-7 → 0-1</code></pre>
+      <p><strong>Table 1</strong> gives the per-boundary role, dominant compact face, and dominant
+      share. Roles are <strong>observational labels for the pattern found, not claims about a
+      mechanism</strong>: <em>feeder</em> describes a diffuse upstream surface; <em>intersection
+      row</em> describes the boundary where multiple axes co-locate (R3–R4); <em>merged downstream
+      face</em> / <em>terminal drop</em> describe rows that converge onto one dominant compact face.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 1. Observed compact boundary table.
+            <span class="src">Source: boundary_differential_report.md (compact boundary table); cf. boundary_intersection_table.md</span>
+          </caption>
+          <thead>
+            <tr><th>Boundary</th><th>Role</th><th>Dominant compact face</th><th class="num">Dominant share</th><th class="num">Face diversity (entropy)</th><th class="num">Class separation</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>96-127 → 64-95</code></td><td>feeder</td><td><code>START_IN_LAYER | k=1 | pre3=1</code></td><td class="num">0.178</td><td class="num">4.069</td><td class="num">8.000</td></tr>
+            <tr class="hl"><td><code>64-95 → 32-63</code></td><td>intersection row</td><td><code>START_IN_LAYER | k=1 | pre3=1,1,1</code></td><td class="num">0.678</td><td class="num">1.643</td><td class="num">15.212</td></tr>
+            <tr><td><code>32-63 → 16-31</code></td><td>reconvergence / merged downstream</td><td><code>INFLOW_FROM_64-95 | k=3 | pre3=1,1,3+</code></td><td class="num">0.987</td><td class="num">0.099</td><td class="num">0.000</td></tr>
+            <tr><td><code>16-31 → 8-15</code></td><td>merged downstream (cleanest)</td><td><code>INFLOW_FROM_32-63 | k=4 | pre3=2,2,3+</code></td><td class="num">0.998</td><td class="num">0.019</td><td class="num">0.000</td></tr>
+            <tr><td><code>8-15 → 4-7</code></td><td>merged downstream</td><td><code>INFLOW_FROM_16-31 | k=5 | pre3=1,1,3+</code></td><td class="num">0.991</td><td class="num">0.087</td><td class="num">0.000</td></tr>
+            <tr><td><code>4-7 → 0-1</code></td><td>terminal drop</td><td><code>INFLOW_FROM_8-15 | k=4 | pre3=1,3+,3+</code></td><td class="num">0.991</td><td class="num">0.075</td><td class="num">0.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Three observations follow directly from Table 1, stated descriptively:</p>
+      <ul>
+        <li>The feeder <code>96-127 → 64-95</code> has the highest face diversity (entropy
+        <code>4.069</code>) and the lowest dominant-face share (<code>0.178</code>) of any row — it is
+        diffuse, not concentrated on one face.</li>
+        <li>The intersection row <code>64-95 → 32-63</code> has the lowest face diversity of the upper
+        boundaries (<code>1.643</code>) together with the highest class separation in the table
+        (<code>15.212</code>) — i.e. relatively few faces, but those faces line up closely with class
+        identity. We do not yet say <em>why</em> this co-occurs (R3–R4 develop the reading).</li>
+        <li>All three downstream merged rows and the terminal row have dominant shares ≥ 0.987 and
+        class separation <code>0.000</code>: previously separated classes are observed to converge
+        onto a shared compact face after the pass (R2).</li>
+      </ul>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 1</span>
+        <h4>Observed first-pass band ladder</h4>
+        <div class="src-line">Source: updated band ladder summary.png (actual filename contains spaces; rename to updated_band_ladder_summary.png for the final manuscript if a hyphen/underscore convention is required)</div>
+        <p>Shows, per boundary, first-pass coverage counts (e.g. <code>64-95 → 32-63</code>:
+        <code>538/538</code>) separately from representative compact-face counts, plus low-support
+        tails at each row (e.g. <code>32-63 → 16-31</code>: <code>7/545</code> on the non-dominant
+        side).</p>
+        <figcaption>
+          <span class="cap-tag">"Observed first-pass band ladder. Descriptive summary only; not a mechanism diagram."</span>
+        </figcaption>
+      </figure>
+
+      <div class="donot">
+        <span class="label">Do not use in this result</span>
+        "selection" or "sorting" as an action the ladder performs; "mechanism"; "imposes"; any
+        phrasing suggesting the ladder is a causal pathway rather than an observed sequence of
+        boundaries.
+      </div>
+    </section>
+
+    <section id="r2">
+      <h3><span class="rtag">R2</span>The <code>64-95 → 32-63</code> first-pass face and its classes</h3>
+
+      <p><strong>R2.1 Entry partition.</strong> Of the 550-trajectory universe, 12 trajectories never
+      enter the <code>64-95</code> layer (<code>G0</code>); the remaining 538 do enter it
+      (<code>G1</code>), and every <code>G1</code> trajectory eventually performs a
+      <code>64-95 → 32-63</code> pass.</p>
+
+      <p><strong>R2.2 First pass vs. first entry.</strong> The first event inside the <code>64-95</code>
+      layer is almost always a <code>64-95 → 64-95</code> stay, not a pass; no trajectory's first-entry
+      event is an A face (R2.3). Among trajectories that ever satisfy the A face, it coincides with the
+      <strong>first</strong> <code>64-95 → 32-63</code> pass in every observed case. We therefore
+      describe the A face as a <strong>within-layer first-pass face</strong>: it is defined at, and
+      observed to coincide with, the first pass — never with first entry.</p>
+
+      <p><strong>R2.3 Four-class partition of <code>G1</code>.</strong> Classifying each
+      <code>G1</code> trajectory by its first-pass descriptor gives four classes that partition the 538
+      trajectories (Table 2). We use <strong>A face</strong> (not "A signature") for the joint
+      condition <code>from = 64-95</code>, <code>to = 32-63</code>, <code>transition_k = 1</code>,
+      <code>pre_k_window_3 = 1,1,1</code> (i.e. pass-face all-1, D8), observed under one of two entry
+      routes.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 2. First-pass face classes (G1 = 538).</caption>
+          <thead>
+            <tr><th>Class</th><th class="num">Count</th><th class="num">Share of G1</th><th>Entry route</th><th>First-pass face</th><th class="num">Pass-face all-1</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>A_start</code></td><td class="num">365</td><td class="num">0.678</td><td><code>START_IN_LAYER</code></td><td><code>k=1</code>, <code>pre3=1,1,1</code></td><td class="num q-passface">1.000 (by def.)</td></tr>
+            <tr><td><code>A_inflow</code></td><td class="num">104</td><td class="num">0.193</td><td><code>INFLOW_FROM_96-127</code></td><td><code>k=1</code>, <code>pre3=1,1,1</code></td><td class="num q-passface">1.000 (by def.)</td></tr>
+            <tr><td><code>Other_start</code></td><td class="num">66</td><td class="num">0.123</td><td><code>START_IN_LAYER</code></td><td>not A face</td><td class="num">—</td></tr>
+            <tr><td><code>Other_inflow</code></td><td class="num">3</td><td class="num">0.006</td><td><code>INFLOW_FROM_96-127</code></td><td>not A face</td><td class="num">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mono" style="white-space:normal;font-size:13.5px;">Checks: 365 + 104 + 66 + 3 = 538; 538 + 12 = 550.</p>
+
+      <p><code>A_start</code> and <code>A_inflow</code> share the same local pass face (<code>k=1</code>,
+      <code>pre3=1,1,1</code>) and differ <strong>only</strong> by entry route. <code>Other_start</code>
+      and <code>Other_inflow</code> are the observed non-A complement at the same boundary, by route.
+      We do not describe any of <code>Other_start</code>/<code>Other_inflow</code> collectively as
+      "near-A failures"; within <code>Other_start</code>, the leading deformations keep
+      <code>START_IN_LAYER</code> and often <code>k=1</code> but break the all-1 pre-window (cf. Figure
+      2, "Other_start breakdown" panel).</p>
+
+      <p><strong>R2.4 Shared downstream corridor.</strong> After the first pass, <code>A_start</code>
+      and <code>A_inflow</code> are observed to follow a common coarse downstream path: their top
+      next-3 and next-5 transition sequences are predominantly <code>32-63 → 32-63</code> stays, and
+      the next boundary's dominant face is the same for both,
+      <code>INFLOW_FROM_64-95 | k=3 | pre3=1,1,3+</code> (cf. Table 1, row 3). We describe this as a
+      shared downstream <strong>corridor</strong>, an observed coarse-path similarity, not a claim
+      that the pass-face <em>causes</em> the downstream path.</p>
+
+      <div class="scope-note">
+        <span class="label">R2.5 — Scope footnote on Other_inflow</span>
+        <code>Other_inflow = 3</code> is part of the <code>G1 = 538</code> first-pass partition reported
+        here and in the forensic summary (Table 6). It is, by contrast, excluded from the three-class
+        all-1 formation table (<code>all1_formation_class_summary.csv</code>, R5) <strong>by
+        scope</strong>, because it is a low-support cell (3 trajectories). This is an intentional
+        scoping choice in that table, not a count discrepancy:
+        <code>365 + 104 + 66 = 535</code> rows are tabulated there against the <code>538</code> in
+        <code>G1</code>.
+      </div>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 2</span>
+        <h4>64-95 chamber / first-pass face taxonomy</h4>
+        <div class="src-line">Source: conceptual figures ("The Band Labyrinth of 64-95"; "From Δ-localization to the 64-95 chamber" / "Taxonomy of First-Pass Faces"), redrawn for this paper</div>
+        <p>Panels to retain: (i) entry of <code>A_start</code>/<code>A_inflow</code>/<code>Other_start</code>/<code>Other_inflow</code>
+        into the <code>64-95</code> chamber by route; (ii) the first-pass decision point; (iii) the
+        <code>Other_start</code> breakdown into "never reaches 111" vs. "reaches 111 but cannot
+        maintain it" (the natural home for the lost-<code>111</code> micro-cases referenced in R5);
+        (iv) the observed counts table (365/104/66/3, 538 total).</p>
+        <div class="edit-note">
+          <strong>Editorial note:</strong> the source figures use the legacy label "A signature." The
+          redrawn version for this paper must relabel every occurrence as <strong>A face</strong> (and,
+          where the by-definition pass condition is shown, as <strong>pass-face all-1</strong>),
+          consistent with D8 and the <a href="#terminology-table">terminology table</a>.
+        </div>
+        <figcaption>
+          <span class="cap-tag">"Observational classification of first-pass faces; no mechanism or causality claimed."</span>
+        </figcaption>
+      </figure>
+
+      <div class="donot">
+        <span class="label">Do not use in this result</span>
+        "signature" as if it denoted a mechanism; "near-A failure" applied to all of
+        <code>Other_start</code>/<code>Other_inflow</code>; "maintenance" (reserved for R5); any
+        phrasing that the A face <em>forces</em> or <em>determines</em> the downstream corridor.
+      </div>
+    </section>
+
+    <section id="r3">
+      <h3><span class="rtag">R3</span>Boundary differential comparison</h3>
+
+      <p><strong>R3.1 Not a maximal-neighbor-distance claim.</strong> The intersection row
+      (<code>64-95 → 32-63</code>) is <strong>not</strong> singled out by raw neighbor distance. The
+      summed descriptive distance around it is <code>4.676</code>, which is <em>below</em> the
+      downstream-neighbor average of <code>5.996</code> (Table 3, where it is listed under its
+      internal analysis label <code>B_sort</code>). Downstream boundaries show large raw label changes
+      for an uninteresting reason: <code>transition_k</code>, <code>pre3</code>, and
+      <code>entry_route</code> are boundary-specific labels, so neighboring boundaries differ in their
+      labels almost by construction.</p>
+
+      <div class="required">
+        <span class="label">Required statement — verbatim</span>
+        <p>"64-95 → 32-63" is not identified here as special by maximal neighbor distance alone.</p>
+      </div>
+
+      <p><strong>R3.2 What does single it out: a combination.</strong> What distinguishes the
+      intersection row (<code>64-95 → 32-63</code>) is the <strong>combination</strong> of moderate
+      face diversity (<code>1.643</code>, Table 1) with high class separation specifically among the
+      four first-pass classes. Table 4 decomposes the class-distance total (<code>15.212</code>) at
+      this boundary by class pair: <code>A_start</code> vs <code>A_inflow</code> contributes
+      <code>4.000</code> (driven by <code>compact_face_l1</code> and <code>entry_route_l1</code>, since
+      the two classes differ only by route); <code>A_start</code> vs <code>Other_start</code>
+      contributes <code>4.606</code>; <code>A_inflow</code> vs <code>Other_start</code> contributes
+      <code>6.606</code> (the largest single pair, combining a route difference with the
+      all-1/non-all-1 split). At the upstream feeder (<code>96-127 → 64-95</code>), the <em>same</em>
+      class-pair decomposition sums to only <code>8.000</code> overall, and is driven almost entirely
+      by the <code>A_inflow</code> vs. others contrast (<code>A_start</code> vs.
+      <code>Other_start</code> is <code>0.000</code> there); downstream of <code>64-95 → 32-63</code>,
+      all class-pair distances are <code>0.000</code> (Table 1).</p>
+
+      <div class="required">
+        <span class="label">Required statement — verbatim</span>
+        <p>Its distinctive role is the co-location of route split, local all-1/pass-face context, and class separation.</p>
+      </div>
+
+      <p><strong>R3.3 Feature-association screen (association, not mechanism).</strong> A descriptive
+      feature screen over the <code>64-95 → 32-63</code> occurrence table (internally, the
+      "sorting-power" screen over boundary <code>B_sort</code>) finds that the feature most strongly
+      associated with class identity is <code>full_face</code>, with an MI-like association score of
+      <code>1.251</code> and purity <code>1.000</code>. We read this as: the full joint first-pass
+      descriptor aligns with class membership almost exactly, which is close to a restatement of how
+      the classes were defined (R2.3) rather than a new discovery; we report it as an
+      <strong>association in the descriptor table</strong>, not as evidence of a causal or generative
+      mechanism, and not as evidence that the boundary performs any sorting action.</p>
+
+      <p><strong>R3.4 Other boundary-level extremes.</strong> The most diffuse boundary by
+      face-diversity is the feeder <code>96-127 → 64-95</code> (entropy <code>4.069</code>,
+      <code>24</code> compact faces); the cleanest merged boundary is <code>16-31 → 8-15</code>
+      (dominant share <code>0.998</code>). The upstream feeder supplies the route label
+      (<code>START_IN_LAYER</code> vs. <code>INFLOW_FROM_96-127</code>) used at
+      <code>64-95 → 32-63</code>, but it does <strong>not</strong> by itself uniquely identify the
+      later <code>A_inflow</code> class; the A/non-A separation is carried at the
+      <code>64-95 → 32-63</code> face itself (cf. Table 4, where the upstream feeder's
+      <code>A_start</code>-vs-<code>Other_start</code> distance is <code>0.000</code>).</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 3. Neighbor-contrast summary.</caption>
+          <thead><tr><th>Quantity</th><th class="num">Value</th></tr></thead>
+          <tbody>
+            <tr class="hl"><td>Summed descriptive distance, <code>64-95 → 32-63</code> neighbors (internal label <code>B_sort</code>)</td><td class="num">4.676</td></tr>
+            <tr><td>Downstream-neighbor average descriptive distance</td><td class="num">5.996</td></tr>
+            <tr class="hl"><td>Class-distance total at <code>64-95 → 32-63</code> (<code>B_sort</code>)</td><td class="num">15.212</td></tr>
+            <tr><td>Class-distance total at upstream feeder <code>96-127 → 64-95</code> (<code>B_up</code>)</td><td class="num">8.000</td></tr>
+            <tr><td>Class-distance total, all downstream rows</td><td class="num">0.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 4. Class-pair decomposition of class distance at 64-95 → 32-63 (and the upstream feeder for contrast).
+            <span class="src">Source: boundary_diff_step5_class_distance_by_boundary.csv</span>
+          </caption>
+          <thead>
+            <tr><th>Boundary</th><th>Class pair</th><th class="num">compact_face_l1</th><th class="num">transition_k_l1</th><th class="num">pre3_l1</th><th class="num">entry_route_l1</th><th class="num">Row total</th></tr>
+          </thead>
+          <tbody>
+            <tr class="hl"><td><code>B_sort</code></td><td><code>A_start</code> vs <code>A_inflow</code></td><td class="num">2.0</td><td class="num">0.0</td><td class="num">0.0</td><td class="num">2.0</td><td class="num">4.000</td></tr>
+            <tr class="hl"><td><code>B_sort</code></td><td><code>A_start</code> vs <code>Other_start</code></td><td class="num">2.0</td><td class="num">0.606</td><td class="num">2.0</td><td class="num">0.0</td><td class="num">4.606</td></tr>
+            <tr class="hl"><td><code>B_sort</code></td><td><code>A_inflow</code> vs <code>Other_start</code></td><td class="num">2.0</td><td class="num">0.606</td><td class="num">2.0</td><td class="num">2.0</td><td class="num">6.606</td></tr>
+            <tr><td><code>B_up</code></td><td><code>A_start</code> vs <code>A_inflow</code></td><td class="num">1.0</td><td class="num">1.0</td><td class="num">1.0</td><td class="num">1.0</td><td class="num">4.000</td></tr>
+            <tr><td><code>B_up</code></td><td><code>A_start</code> vs <code>Other_start</code></td><td class="num">0.0</td><td class="num">0.0</td><td class="num">0.0</td><td class="num">0.0</td><td class="num">0.000</td></tr>
+            <tr><td><code>B_up</code></td><td><code>A_inflow</code> vs <code>Other_start</code></td><td class="num">1.0</td><td class="num">1.0</td><td class="num">1.0</td><td class="num">1.0</td><td class="num">4.000</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 3</span>
+        <h4>Boundary differential comparison</h4>
+        <div class="src-line">No existing source image — newly specified for this paper</div>
+        <p>A small-multiple or bar-chart rendering of Table 3 and Table 4: (i) the
+        <code>64-95 → 32-63</code> boundary vs. downstream-average neighbor distance, visually showing
+        <code>4.676 &lt; 5.996</code>; (ii) class-distance total by boundary, with
+        <code>64-95 → 32-63</code> (<code>15.212</code>) the clear maximum and downstream rows flat at
+        <code>0.000</code>.</p>
+        <figcaption>
+          <span class="cap-tag">"Descriptive comparison of neighboring boundaries; not evidence of a causal mechanism."</span>
+        </figcaption>
+      </figure>
+
+      <div class="donot">
+        <span class="label">Do not use in this result</span>
+        "maximal neighbor distance" as the reason for the <code>64-95 → 32-63</code> boundary's status;
+        "mechanism"; "because" in a causal sense; "proof"; "MI" stated as if it measured causal
+        information transfer (call it an "MI-like association score"); "sorting" as an action the
+        boundary performs (<code>B_sort</code>/"sorting-power" survive only as internal analysis
+        labels, not as reader-facing claims).
+      </div>
+    </section>
+
+    <section id="r4">
+      <h3><span class="rtag">R4</span>Boundary intersection map</h3>
+
+      <p><strong>R4.1 Thresholds.</strong> The intersection map scores six observable axes (route
+      split, k split, pre3 split, all-1 context, class separation, face diversity) per boundary on a
+      0/1/2 scale: distribution axes use 0 if the dominant value's share is ≥ 0.98, 1 if only one
+      non-dominant value has support ≥ 10, 2 if multiple values have support ≥ 10; class separation is
+      2 for the <code>64-95</code> row or total class-distance ≥ 8, 1 for nonzero but weaker
+      separation; reconvergence is 2 on downstream rows where major classes share the dominant compact
+      face; face diversity is 2 when compact-face entropy ≥ 2 or ≥ 20 compact faces are present.</p>
+
+      <p><strong>R4.2 Result.</strong> <code>64-95 → 32-63</code> has the strongest intersection of
+      active axes in the table: active-axis count <code>6</code> and total score <code>12</code> — the
+      only row that scores on <strong>all</strong> of route split, k split, pre3 split, all-1 context,
+      class separation, and face diversity simultaneously (Table 5; Figure 4). Downstream rows score
+      mainly, and in several cases solely, on reconvergence. The upstream feeder
+      <code>96-127 → 64-95</code> is diffuse (high face diversity) but scores only <code>3/8</code>
+      overall, and is explicitly weak as a standalone separator of the later A/non-A classes (cf. R3.4,
+      Table 4).</p>
+
+      <div class="required">
+        <span class="label">Required statement — verbatim</span>
+        <p>This is an observational intersection map, not a mechanism diagram.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 5. Boundary intersection axis scores (display columns).
+            <span class="src">Source: boundary_intersection_axis_scores.csv, boundary_intersection_table.md</span>
+          </caption>
+          <thead>
+            <tr><th>Boundary</th><th>Role</th><th>Active axes (score 2)</th><th class="num">Active-axis count</th><th class="num">Total score</th><th>Dominant face</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>96-127 → 64-95</code></td><td>diffuse feeder</td><td>k split, pre3 split, face diversity</td><td class="num">3</td><td class="num">8</td><td><code>START_IN_LAYER | k=1 | pre3=1</code></td></tr>
+            <tr class="hl"><td><code>64-95 → 32-63</code></td><td>intersection row</td><td>route split, k split, pre3 split, all-1 context, class separation, face diversity</td><td class="num">6</td><td class="num">12</td><td><code>START_IN_LAYER | k=1 | pre3=1,1,1</code></td></tr>
+            <tr><td><code>32-63 → 16-31</code></td><td>reconvergence face</td><td>reconvergence</td><td class="num">1</td><td class="num">3</td><td><code>INFLOW_FROM_64-95 | k=3 | pre3=1,1,3+</code></td></tr>
+            <tr><td><code>16-31 → 8-15</code></td><td>clean downstream face</td><td>reconvergence</td><td class="num">1</td><td class="num">3</td><td><code>INFLOW_FROM_32-63 | k=4 | pre3=2,2,3+</code></td></tr>
+            <tr><td><code>8-15 → 4-7</code></td><td>downstream face</td><td>reconvergence</td><td class="num">1</td><td class="num">2</td><td><code>INFLOW_FROM_16-31 | k=5 | pre3=1,1,3+</code></td></tr>
+            <tr><td><code>4-7 → 0-1</code></td><td>terminal drop</td><td>reconvergence</td><td class="num">1</td><td class="num">2</td><td><code>INFLOW_FROM_8-15 | k=4 | pre3=1,3+,3+</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 4</span>
+        <h4>Boundary intersection heatmap</h4>
+        <div class="src-line">Source: boundary_intersection_heatmap.png</div>
+        <p>Axis grid (rows = boundaries, columns = the six observable axes), <code>64-95 → 32-63</code>
+        row highlighted as the only full-intensity row.</p>
+        <figcaption>
+          <span class="cap-tag">"Observable-axis grid; observational summary, not a mechanism diagram."</span>
+        </figcaption>
+      </figure>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 5</span>
+        <h4>Boundary intersection ladder</h4>
+        <div class="src-line">Source: boundary_intersection_ladder.png</div>
+        <p>The band ladder of Figure 1, re-annotated with active-axis badges per boundary;
+        <code>64-95 → 32-63</code> shown with all six badges active.</p>
+        <figcaption>
+          <span class="cap-tag">"Ladder with active-axis badges; observational summary only."</span>
+        </figcaption>
+      </figure>
+
+      <div class="donot">
+        <span class="label">Do not use in this result</span>
+        "causal evidence"; "certainty-level evidence"; "imposed downstream fate"; any reading of the
+        map beyond marking where observed descriptors co-locate in this scan.
+      </div>
+    </section>
+
+    <section id="r5">
+      <h3><span class="rtag">R5</span>All-1 formation, pass-face all-1, and continuous maintenance</h3>
+      <p>This result states the central terminology resolution of the paper explicitly and gives the
+      supporting numbers.</p>
+
+      <p><strong>R5.1 Pass-face all-1 is true by definition.</strong> For <code>A_start</code> and
+      <code>A_inflow</code>, <span class="q-passface">pass-face all-1</span> (D8) is <code>1.000</code>
+      because it is how the classes are defined: the first pass <em>is</em> <code>k=1</code>,
+      <code>pre3=1,1,1</code>. This is a <strong>pass-event</strong> quantity (D8) and is distinct from
+      Table 6's "<span class="q-everappears">pre111 ever appears before pass</span>" column, which
+      instead reports whether <code>pre111</code> is reached <strong>anywhere in the entry-to-pass
+      window</strong>, not necessarily at the pass itself (Table 6 below; source field
+      <code>share_first_pre111_present</code>).</p>
+
+      <p><strong>R5.2 Continuous pre111 maintenance is strictly lower.</strong> Once <code>pre111</code>
+      first appears within the entry-to-pass window, whether it is held at <strong>every</strong>
+      subsequent event through the pass is a different and strictly harder condition. The observed
+      shares are <code>A_start = 0.729</code>, <code>A_inflow = 0.548</code>,
+      <code>Other_start = 0.000</code>, <code>Other_inflow = 0.000</code> (Table 6). This is
+      <strong>not a contradiction</strong> of R5.1 — it is a different, stricter, temporal quantity,
+      and the two must never be reported as the same number.</p>
+
+      <p><strong>R5.3 Break statistics.</strong> Where continuous maintenance fails for
+      <code>A_start</code>/<code>A_inflow</code>, the interrupting break is one of two kinds:
+      <code>pre3</code> goes to <code>1,1,2</code> or to <code>1,1,3+</code>. For <code>A_start</code>:
+      <code>1,1,2</code> in 59 cases (0.596 of breaks), <code>1,1,3+</code> in 40 (0.404). For
+      <code>A_inflow</code>: <code>1,1,2</code> in 29 (0.617), <code>1,1,3+</code> in 18 (0.383). In
+      both classes, the same final step is the one perturbed; the run interrupts rather than
+      collapses.</p>
+
+      <p><strong>R5.4 Formation timing.</strong> Across the all-1 formation analysis
+      (<code>all1_formation_class_summary.csv</code>), the median distance from the first appearance
+      of <code>111</code> to the pass is <code>1</code> event for both <code>A_start</code> and
+      <code>A_inflow</code> — that is, the first <code>111</code> often appears close to the pass,
+      rather than early in the entry-to-pass window.</p>
+
+      <p><strong>R5.5 <code>1111</code> present at pass is a separate, third quantity.</strong> The
+      class-summary column <code>share_maintaining_1111_until_pass</code> reports
+      <code>A_start = 0.564</code>, <code>A_inflow = 0.548</code>. Despite its column name, this is a
+      <strong>pass-presence judgment</strong> — whether the length-4 run <code>1111</code> is present
+      <em>at</em> the pass — directly analogous to R5.1 but one digit longer, and is <strong>not</strong>
+      a continuous/strict maintenance measure (D10). It must be reported as "1111 present at pass" or
+      "pass-event 1111," never as "strict" or "continuous" maintenance, and must be kept visually and
+      verbally distinct from R5.2's <code>0.729/0.548</code>.</p>
+
+      <p><strong>R5.6 Where the separator lives.</strong> Among <code>START_IN_LAYER</code> rows,
+      <code>Other_start</code> mostly never reaches <code>111</code> before the pass at all (share
+      with <code>pre111</code> ever appearing before pass = <code>0.121</code>, Table 6) — only a small
+      subset (8 of 66) reach it and then lose it (the lost-<code>111</code> micro-cases; cf. Figure 2's
+      "Other_start breakdown" panel). The observational reading is therefore: the separator between
+      <code>A_start</code> and same-route <code>Other_start</code> lives <strong>at the pass</strong>,
+      in the local all-1 context, not in some earlier formation event.</p>
+
+      <div class="scope-note">
+        <span class="label">R5.7 — Scope note (repeated from R2.5)</span>
+        The forensic summary (Table 6) reports four classes including <code>Other_inflow = 3</code>;
+        the all-1 formation class summary tabulates only the three larger classes
+        (<code>A_start</code>, <code>A_inflow</code>, <code>Other_start</code>), excluding
+        <code>Other_inflow</code> <strong>by scope</strong> (low support), not because of any count
+        discrepancy.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>Table 6. Forensic class summary — pass-face all-1, continuous maintenance, and pass-event 1111.
+            <span class="src">Sources: boundary_diff_step6_64_95_forensic_summary.csv; all1_formation_class_summary.csv. The "1111 present at pass" and median-distance-to-pass columns are populated only for the three classes in scope there; see R5.7.</span>
+          </caption>
+          <thead>
+            <tr>
+              <th>Class</th><th class="num">Count</th><th class="num">Median wait (events)</th>
+              <th class="num q-passface">Pass-face all-1 (by def.)</th>
+              <th class="num q-everappears">pre111 ever appears before pass</th>
+              <th class="num q-maintenance">Continuous pre111 maintenance</th>
+              <th class="num q-1111">1111 present at pass</th>
+              <th>Dominant pass face</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>A_start</code></td><td class="num">365</td><td class="num">10.0</td><td class="num q-passface">1.000</td><td class="num q-everappears">1.000</td><td class="num q-maintenance"><strong>0.729</strong></td><td class="num q-1111">0.564</td><td><code>START_IN_LAYER | k=1 | pre3=1,1,1</code> (1.000)</td></tr>
+            <tr><td><code>A_inflow</code></td><td class="num">104</td><td class="num">17.0</td><td class="num q-passface">1.000</td><td class="num q-everappears">1.000</td><td class="num q-maintenance"><strong>0.548</strong></td><td class="num q-1111">0.548</td><td><code>INFLOW_FROM_96-127 | k=1 | pre3=1,1,1</code> (1.000)</td></tr>
+            <tr><td><code>Other_start</code></td><td class="num">66</td><td class="num">3.0</td><td class="num">—</td><td class="num q-everappears">0.121</td><td class="num q-maintenance"><strong>0.000</strong></td><td class="num">— (not A face)</td><td>heterogeneous; leading <code>k=1 | pre3=3+,1,1</code> (0.424)</td></tr>
+            <tr><td><code>Other_inflow</code></td><td class="num">3</td><td class="num">17.0</td><td class="num">—</td><td class="num q-everappears">1.000</td><td class="num q-maintenance"><strong>0.000</strong></td><td class="num">not tabulated (out of scope, R5.7)</td><td>low support</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="scope-note">
+        <span class="label">Table 6 note</span>
+        The "<span class="q-everappears">pre111 ever appears before pass</span>" column reports
+        whether <code>pre111</code> is reached <strong>anywhere in the entry-to-pass window</strong>,
+        not whether it is present <em>at</em> the pass; it is a different quantity from
+        "<span class="q-passface">pass-face all-1</span>" (D8) and from
+        "<span class="q-1111">1111 present at pass</span>" (D10). <code>Other_inflow</code>'s share of
+        <code>1.000</code> on this column means <code>pre111</code> was reached at some point before
+        the pass for all 3 rows — it does <strong>not</strong> imply that <code>Other_inflow</code>
+        satisfies the A face or has pre111 at the pass itself; by definition, <code>Other_inflow</code>
+        is precisely the non-A complement at this boundary (Table 2), and its continuous-maintenance
+        share is <code>0.000</code> regardless.
+      </div>
+
+      <figure class="placeholder">
+        <span class="fig-number">Figure 6</span>
+        <h4>Pass-face all-1 vs. continuous maintenance</h4>
+        <div class="src-line">No existing source image — newly specified for this paper. Rendering below is illustrative, built directly from Table 6.</div>
+
+        <div class="figure6">
+          <div class="barpanel">
+            <h5 class="q-passface" style="color:var(--teal);">pass-face all-1 (by definition)</h5>
+            <div class="barrow"><div class="lbl">A_start</div><div class="track"><div class="fill passface" style="width:100%;"><span>1.000</span></div></div></div>
+            <div class="barrow"><div class="lbl">A_inflow</div><div class="track"><div class="fill passface" style="width:100%;"><span>1.000</span></div></div></div>
+            <div class="barrow"><div class="lbl">Other_start</div><div class="track" style="display:flex;align-items:center;justify-content:center;"><span class="na-pill">not A face / n/a</span></div></div>
+            <div class="barrow"><div class="lbl">Other_inflow</div><div class="track" style="display:flex;align-items:center;justify-content:center;"><span class="na-pill">not A face / n/a</span></div></div>
+          </div>
+          <div class="barpanel">
+            <h5 style="color:var(--rust);">continuous pre111 maintenance</h5>
+            <div class="barrow"><div class="lbl">A_start</div><div class="track"><div class="fill maintenance" style="width:72.9%;"><span>0.729</span></div></div></div>
+            <div class="barrow"><div class="lbl">A_inflow</div><div class="track"><div class="fill maintenance" style="width:54.8%;"><span>0.548</span></div></div></div>
+            <div class="barrow"><div class="lbl">Other_start</div><div class="track"><div class="fill maintenance" style="width:1.5%;"><span style="color:var(--ink-soft);padding-right:0;margin-left:6px;">0.000</span></div></div></div>
+            <div class="barrow"><div class="lbl">Other_inflow</div><div class="track"><div class="fill maintenance" style="width:1.5%;"><span style="color:var(--ink-soft);padding-right:0;margin-left:6px;">0.000</span></div></div></div>
+          </div>
+        </div>
+
+        <div class="edit-note">
+          <strong>Construction note:</strong> <code>Other_start</code> and <code>Other_inflow</code>
+          are <strong>not</strong> drawn as zero-height bars on the pass-face-all-1 axis — a zero bar
+          would misleadingly read as "this was measured and found to be 0," when in fact the quantity
+          is undefined for non-A classes. They are marked <strong>"not A face / n/a"</strong> there
+          instead. Their continuous-pre111-maintenance values (both <code>0.000</code>, which
+          <em>is</em> a measured value) are shown as ordinary — if very short — bars on the right
+          panel.
+        </div>
+        <figcaption>
+          <span class="cap-tag">"Two distinct quantities; not to be conflated. Pass-face all-1 is undefined, not zero, for non-A classes. Observational summary only."</span>
+        </figcaption>
+      </figure>
+
+      <div class="donot">
+        <span class="label">Do not use in this result</span>
+        "maintain 111 to pass 100%" or any equivalent collapsing of R5.1 into R5.2; "maintenance" for
+        the by-definition pass-face condition; "strict"/"continuous" for the 1111-present-at-pass
+        column; "because"; "forces"; any overinterpretation of the lower continuous-maintenance shares
+        as evidence against the pass-face classification.
+      </div>
+    </section>
+  </section>
+
+  <section id="terminology-table">
+    <h2><span class="eyebrow">04 — Reference</span>Terminology table</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Canonical term</th><th>Definition</th><th>Value(s)</th><th>Forbidden usage</th></tr></thead>
+        <tbody>
+          <tr><td><code class="q-passface" style="background:var(--teal-soft);">pass-face all-1</code> (= "all-1 at pass")</td><td>First <code>64-95 → 32-63</code> pass has <code>transition_k=1</code>, <code>pre_k_window_3=1,1,1</code>.</td><td><code>A_start</code> 1.000; <code>A_inflow</code> 1.000 (both by definition)</td><td>calling this "maintenance"</td></tr>
+          <tr><td><code class="q-maintenance" style="background:var(--rust-soft);">continuous pre111 maintenance</code></td><td>After <code>pre111</code> first appears, <code>pre_k_window_3</code> stays <code>1,1,1</code> at every event through the pass.</td><td><code>A_start</code> 0.729; <code>A_inflow</code> 0.548; <code>Other_start</code>/<code>Other_inflow</code> 0.000</td><td>reporting this as 1.000</td></tr>
+          <tr><td><code class="q-1111" style="background:#EBE3F5;">1111 present at pass</code> (= "pass-event 1111")</td><td>Whether <code>1111</code> is present at the pass event.</td><td><code>A_start</code> 0.564; <code>A_inflow</code> 0.548</td><td>calling this "strict" or "continuous" maintenance</td></tr>
+          <tr><td><code class="q-everappears" style="background:#E9EDD9;">pre111 ever appears before pass</code> (<code>share_first_pre111_present</code>)</td><td>Whether <code>pre111</code> is reached <strong>anywhere</strong> in the entry-to-pass window (formation, not pass-event presence).</td><td><code>A_start</code> 1.000; <code>A_inflow</code> 1.000; <code>Other_start</code> 0.121; <code>Other_inflow</code> 1.000</td><td>calling this "pre111 present at pass"; reading <code>Other_inflow</code>'s 1.000 here as A-face membership</td></tr>
+          <tr><td><code>A face</code> (legacy: "A signature")</td><td>First-pass descriptor: <code>from=64-95</code>, <code>to=32-63</code>, <code>transition_k=1</code>, <code>pre3=1,1,1</code>, either entry route.</td><td>—</td><td>using "signature" as a mechanism</td></tr>
+          <tr><td><code>A_start</code> / <code>A_inflow</code></td><td>A face with route <code>START_IN_LAYER</code> / <code>INFLOW_FROM_96-127</code>.</td><td>365 / 104</td><td>"relabelled A_start" for <code>A_inflow</code></td></tr>
+          <tr><td><code>Other_start</code> / <code>Other_inflow</code></td><td>Non-A first pass at the same boundary, by route.</td><td>66 / 3 (low support)</td><td>"near-A failure" applied to all rows</td></tr>
+          <tr><td><code>START_IN_LAYER</code></td><td>The valuation word <strong>begins</strong> in that <code>remaining_K</code> layer.</td><td>—</td><td>"first occurrence / first visit / first entry"</td></tr>
+          <tr><td><code>first pass</code></td><td>First <code>64-95 → 32-63</code> pass event.</td><td>—</td><td>conflating with "first entry"</td></tr>
+          <tr><td><code>co-location</code></td><td>Multiple observable axes scoring high on the same boundary row.</td><td><code>64-95 → 32-63</code>: 6 axes, score 12</td><td>"cause," "imposes downstream fate"</td></tr>
+          <tr><td><code>reconvergence</code></td><td>Downstream rows where major classes share the dominant compact face.</td><td>shares ≈ 0.987–0.998</td><td>"sorting mechanism"</td></tr>
+          <tr><td><code>low-support tail</code></td><td>Cells below the support threshold; candidate structure only.</td><td>e.g. <code>Other_inflow</code>, START-route downstream tails</td><td>"result"</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="limitations">
+    <h2><span class="eyebrow">05 — Boundaries of the claim</span>Limitations</h2>
+
+    <p><strong>Scope and sampling.</strong> The analysis universe is a sampled, scanner-defined ensemble
+    of 550 accelerated Collatz trajectories under <code>original_n_strict</code>, not an exhaustive
+    enumeration of integers. All shares, counts, and distances reported here are within-sample
+    quantities tied to that scanner mode; a different mode (e.g. <code>odd_core</code>,
+    <code>odd_only</code>) would shift counts, though we do not re-derive that dependence in this
+    paper.</p>
+
+    <p><strong>Descriptive scope.</strong> Every claim in this paper is a concentration, co-location,
+    separation, or reconvergence statement about observed descriptors. None is a causal, generative, or
+    mechanistic claim, and none is a proof or disproof of any statement about the Collatz conjecture.
+    The boundary intersection map (R4) marks where descriptors co-locate in this scan; it is not a
+    mechanism diagram.</p>
+
+    <p><strong>Low-support tails.</strong> Several cells remain visible in the tables above but are
+    explicitly <strong>not load-bearing</strong>: <code>Other_inflow</code> (3 of 538), the small
+    START-route tails on downstream boundaries (e.g. 7/545 at <code>32-63 → 16-31</code>), and the
+    lost-<code>111</code> micro-cases within <code>Other_start</code> (8 of 66). These are candidate
+    structure, not claims.</p>
+
+    <p><strong>Open descriptive questions.</strong> This paper does not explain <em>why</em> descriptors
+    are distributed the way Tables 1, 4, and 5 show; <em>why</em> low-support tails appear where they
+    do; or whether the same contrasts would persist under a larger or differently sampled universe.
+    These are left open.</p>
+  </section>
+
+  <section id="relation">
+    <h2><span class="eyebrow">06 — Context</span>Relation to other chapters</h2>
+    <p>This paper is part of a larger Collatz-trajectory research program that also includes a broad
+    actual-vs-iid finite-block discrepancy analysis and a separate localization/diagnostic ("delta")
+    analysis identifying <em>where on the <code>remaining_K</code> axis</em> an actual-vs-surrogate
+    difference signal concentrates. Both of those analyses exist as their own chapters and are not
+    reproduced or re-derived here; they are used only to motivate the present zoom-in (the delta
+    analysis is what originally pointed at the <code>64-95</code> band as the most readable region).
+    This paper takes that localization as a starting point and asks a narrower, purely descriptive
+    question about first-pass structure <em>within and around</em> the <code>64-95 → 32-63</code>
+    boundary.</p>
+    <p>No claim from the finite-block or delta chapters is imported into this paper, and no claim made
+    here is asserted to hold for those chapters. A later piece of work may connect the three — for
+    instance, asking whether the <code>64-95 → 32-63</code> intersection-row pattern found here is
+    itself a finer-grained view of the difference signal the delta chapter localizes to the
+    <code>64-95</code> band — but that connection is <strong>not</strong> attempted here, and no claim
+    in this paper should be read as already making it.</p>
+  </section>
+
+  <section id="evidence">
+    <h2><span class="eyebrow">07 — Traceability</span>Evidence files</h2>
+    <p>All numbers in this paper are traceable to the following files. Re-deriving or spot-checking
+    any number in Tables 1–6 should start here.</p>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Primary evidence — .md reports</caption>
+        <thead><tr><th>File</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td><code>boundary_differential_report.md</code></td><td>Table 1 (compact boundary table); R3.1–R3.4 (neighbor contrast, sorting-power screen, forensic reading)</td></tr>
+          <tr><td><code>boundary_intersection_map_report.md</code></td><td>R4.1–R4.2 (thresholds, verbatim required statement)</td></tr>
+          <tr><td><code>boundary_intersection_table.md</code></td><td>Table 5 (active axes, dominant face, reading column)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Primary evidence — .csv data</caption>
+        <thead><tr><th>File</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td><code>boundary_diff_step6_64_95_forensic_summary.csv</code></td><td>Table 6 — <code>count</code>, <code>median_wait</code>, <code>share_first_pre111_present</code>, <code>share_maintains_pre111_to_pass</code></td></tr>
+          <tr><td><code>boundary_diff_step5_class_distance_by_boundary.csv</code></td><td>Table 4 — class-pair decomposition of class distance at <code>B_sort</code> / <code>B_up</code></td></tr>
+          <tr><td><code>boundary_intersection_axis_scores.csv</code></td><td>Table 5 — <code>active_axis_count</code>, <code>axis_score_total</code>, <code>dominant_face</code>, <code>dominant_share</code></td></tr>
+          <tr><td><code>all1_formation_class_summary.csv</code></td><td>Table 6 — <code>share_maintaining_1111_until_pass</code>, <code>median_distance_first_111_to_pass</code> (three-class scope; see R2.5/R5.7)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <caption>Figures — source images, to be relabeled or redrawn (see R2.3, Figure 2 editorial note)</caption>
+        <thead><tr><th>File</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td><code>updated band ladder summary.png</code></td><td>Figure 1</td></tr>
+          <tr><td><code>boundary_intersection_heatmap.png</code></td><td>Figure 4</td></tr>
+          <tr><td><code>boundary_intersection_ladder.png</code></td><td>Figure 5</td></tr>
+          <tr><td>"Band Labyrinth of 64-95" conceptual figure</td><td>Figure 2 (requires "A signature" → "A face" relabeling)</td></tr>
+          <tr><td>"From Δ-localization to the 64-95 chamber" / "Taxonomy of First-Pass Faces" conceptual figure</td><td>Figure 2 (requires "A signature" → "A face" relabeling)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Reference-only</strong> (old drafts, audited but not carried forward verbatim):</p>
+    <ul>
+      <li><code>band_signatures1.html</code></li>
+      <li><code>band_signature_first_pass_paper2.html</code></li>
+      <li><code>band_signature_first_pass_paper3.html</code></li>
+    </ul>
+
+    <p><strong>Companion planning documents</strong> (not evidence, but the source of this paper's
+    structure and terminology decisions):</p>
+    <ul>
+      <li><code>paradoxical_sequence_paper_outline.md</code></li>
+      <li><code>paradoxical_sequence_reconciliation_note.md</code></li>
+    </ul>
+  </section>
+
+  <section id="open-items" class="open-items">
+    <h2><span class="eyebrow">08 — Remaining work</span>Open items before this is final</h2>
+    <ol>
+      <li><strong>Figures not yet rendered.</strong> Figures 1–6 above are specified by
+      source/content/caption tag but not yet rendered as final image files for this manuscript.
+      Figures 2, 4, and 5 reuse or redraw existing source images (<code>updated band ladder
+      summary.png</code> — note the actual filename uses spaces, not underscores —
+      <code>boundary_intersection_heatmap.png</code>, <code>boundary_intersection_ladder.png</code>,
+      and the two "Band Labyrinth" / "Δ-localization → chamber" conceptual figures), and
+      <strong>Figure 2's source images must be relabeled</strong> from "A signature" to "A face" /
+      "pass-face all-1" before inclusion (R2.3). Figures 3 and 6 are newly specified here and have no
+      existing source image.</li>
+      <li><strong>iid background retention.</strong> Confirm whether any actual-vs-iid background
+      material is retained as a scoped paragraph anywhere in the paper; this draft contains none beyond
+      the one background paragraph in <a href="#relation">Relation to other chapters</a>.</li>
+      <li><strong>Rozier–Terracol appendix.</strong> Confirm whether a Rozier–Terracol
+      external-benchmark appendix is wanted; this draft does not include one, per the reconciliation
+      note's "appendix-level only" guidance and the instruction to keep this paper limited to the
+      paradoxical-sequence material.</li>
+      <li><strong>Numeric audit pass.</strong> Re-verify every number in this draft (counts, shares,
+      distances) directly against the evidence files listed above before this moves from draft to
+      final.</li>
+      <li><strong>Figure 6 construction.</strong> When Figure 6 is actually built (beyond the
+      illustrative rendering above), confirm the rendering tool supports a genuine "not applicable"
+      treatment for <code>Other_start</code>/<code>Other_inflow</code> on the pass-face-all-1 axis
+      (hatching, n/a label, or omission with caption note) rather than defaulting to a zero-height
+      bar.</li>
+      <li><strong>HTML rendering parity.</strong> When this page is built or updated from
+      <code>README.md</code>, confirm it reproduces every required verbatim statement, keeps
+      D8/D9/D10/D11 visually distinct (especially in any rendering of Table 6 and Figure 6), and
+      introduces no stronger claim language than appears in the README.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  <p>Paradoxical-sequence chapter — draft for review. Generated as a reader-facing rendering of
+  <code>README.md</code>. Scanner mode <code>original_n_strict</code>, universe 550 trajectories.
+  Observational and descriptive throughout; no mechanism, causal, or proof claim is made about the
+  Collatz conjecture.</p>
+</footer>
+
+<script>
+  // back-to-top visibility
+  var totop = document.getElementById('totop');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 600) { totop.classList.add('show'); }
+    else { totop.classList.remove('show'); }
+  }, {passive:true});
+</script>
+
+</body>
+</html>
