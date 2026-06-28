@@ -604,6 +604,19 @@ decisions):**
 
 ---
 
+# External References
+
+This repository does not redistribute external PDF files.
+
+## Rozier--Terracol reference
+
+- Title: [Paradoxical behavior in Collatz sequences]
+- arXiv / source URL: https://arxiv.org/abs/2502.00948
+- PDF URL: https://arxiv.org/pdf/2502.00948
+- Local filename used during analysis: `rozier_terracol_2502_00948.pdf`
+- Role in this project: external benchmark / comparison reference only.
+---
+
 ## Open items before this is final
 
 1. **Figures not yet rendered.** Figures 1–6 above are specified by source/content/caption tag but not
